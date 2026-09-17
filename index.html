@@ -50,7 +50,6 @@ html.dark body { background: radial-gradient(circle at top left, #1e293b 0%, #0b
 .a4-page-landscape { width: 297mm; height: 210mm; padding: 8mm; background: white; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
 #pdf-render-area { position: absolute; left: -9999px; top: -9999px; }
 
-/* Sidebar */
 .sidebar { background: var(--surface); border-right: 1px solid var(--border); }
 .sidebar .nav-item { display:flex; align-items:center; gap:12px; padding: 11px 14px; margin: 2px 8px; border-radius: 12px; color: var(--text-2); font-weight:600; font-size:13px; cursor:pointer; transition: all .2s; border: none; background: transparent; width: calc(100% - 16px); text-align: left; }
 .sidebar .nav-item:hover { background: var(--surface-2); color: var(--primary); transform: translateX(3px); }
@@ -59,15 +58,12 @@ html.dark body { background: radial-gradient(circle at top left, #1e293b 0%, #0b
 .sidebar .nav-section { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; color: var(--text-3); padding: 16px 20px 6px; }
 .nav-item.hidden-tab { display: none !important; }
 
-/* Topbar */
 .topbar { background: rgba(255,255,255,.8); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
 html.dark .topbar { background: rgba(19,28,49,.8); }
 
-/* Cards */
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow-sm); transition: all .25s; }
 .card-hover:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: var(--primary); }
 
-/* Stat cards */
 .stat-card { background: var(--surface); border-radius: 18px; padding: 18px; border: 1px solid var(--border); box-shadow: var(--shadow-sm); transition: .25s; position: relative; overflow: hidden; }
 .stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
 .stat-card .stat-icon { width: 44px; height: 44px; border-radius: 12px; display:flex; align-items:center; justify-content:center; font-size: 22px; margin-bottom: 12px; }
@@ -119,14 +115,15 @@ label { color: var(--text-2); }
 
 .btn { display:inline-flex; align-items:center; justify-content:center; gap:6px; font-weight: 700; border-radius: 12px; transition: all .2s; cursor: pointer; border: none; }
 .btn:active { transform: scale(.97); }
+.btn:disabled { opacity: 0.6; cursor: not-allowed; }
 .btn-primary { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; box-shadow: 0 8px 20px -6px rgba(99,102,241,.6); }
-.btn-primary:hover { box-shadow: 0 12px 28px -6px rgba(99,102,241,.75); transform: translateY(-1px); }
+.btn-primary:hover:not(:disabled) { box-shadow: 0 12px 28px -6px rgba(99,102,241,.75); transform: translateY(-1px); }
 .btn-success { background: linear-gradient(135deg, #10b981, #14b8a6); color: white; box-shadow: 0 8px 20px -6px rgba(16,185,129,.6); }
-.btn-success:hover { transform: translateY(-1px); }
+.btn-success:hover:not(:disabled) { transform: translateY(-1px); }
 .btn-danger { background: linear-gradient(135deg, #ef4444, #f43f5e); color: white; }
-.btn-danger:hover { transform: translateY(-1px); }
+.btn-danger:hover:not(:disabled) { transform: translateY(-1px); }
 .btn-ghost { background: var(--surface-2); color: var(--text-2); border: 1px solid var(--border); }
-.btn-ghost:hover { background: var(--border); }
+.btn-ghost:hover:not(:disabled) { background: var(--border); }
 
 .chip { display: inline-flex; align-items:center; gap:6px; font-size: 11px; font-weight: 700; padding: 5px 12px; border-radius: 9999px; }
 
@@ -164,17 +161,14 @@ label { color: var(--text-2); }
 .archive-bj { border-left: 4px solid #10b981; }
 .archive-ss { border-left: 4px solid #8b5cf6; }
 
+.sisa-row { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 8px; }
+
 @media (max-width: 1023px) {
   .sidebar { position: fixed; left: 0; top: 0; bottom: 0; z-index: 200; transform: translateX(-100%); transition: transform .3s cubic-bezier(.16,1,.3,1); width: 280px; box-shadow: var(--shadow-lg); }
   .sidebar.open { transform: translateX(0); }
   .sidebar-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 199; opacity: 0; pointer-events: none; transition: opacity .2s; }
   .sidebar-backdrop.open { opacity: 1; pointer-events: auto; }
 }
-
-.skeleton { background: linear-gradient(90deg, var(--surface-2) 25%, var(--border) 50%, var(--surface-2) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 8px; }
-@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-
-.formula-chip { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 8px 12px; font-size: 12px; display: flex; align-items: center; gap: 8px; }
 
 @media print { body * { visibility: hidden; } }
 </style>
@@ -208,9 +202,7 @@ label { color: var(--text-2); }
 
 <!-- ============ DASHBOARD ============ -->
 <div id="page-dashboard" class="hidden">
-
   <div class="sidebar-backdrop" id="sidebar-backdrop" onclick="toggleSidebar()"></div>
-
   <div class="flex min-h-screen">
     <aside class="sidebar w-[270px] flex-shrink-0 hidden lg:flex flex-col py-4" id="sidebar">
       <div class="px-5 pb-4 border-b flex items-center gap-3" style="border-color: var(--border)">
@@ -220,29 +212,24 @@ label { color: var(--text-2); }
           <p class="text-[10px] font-semibold" style="color: var(--text-3)">SPK V7.0 · PRO</p>
         </div>
       </div>
-
       <nav class="flex-1 overflow-y-auto py-2" id="sidebar-nav">
         <div class="nav-section">Utama</div>
         <button onclick="switchTab('dashboard')" id="tab-dashboard" class="nav-item active"><span class="nav-icon">🏠</span> Dashboard</button>
         <button onclick="switchTab('spk')" id="tab-spk" class="nav-item"><span class="nav-icon">📋</span> Input SPK</button>
         <button onclick="switchTab('history')" id="tab-history" class="nav-item"><span class="nav-icon">📂</span> Riwayat SPK</button>
-
         <div class="nav-section">Produksi</div>
         <button onclick="switchTab('gudang')" id="tab-gudang" class="nav-item"><span class="nav-icon">🏭</span> Gudang</button>
         <button onclick="switchTab('produksi')" id="tab-produksi" class="nav-item"><span class="nav-icon">⚙️</span> Produksi</button>
         <button onclick="switchTab('barangjadi')" id="tab-barangjadi" class="nav-item"><span class="nav-icon">📦</span> Barang Jadi</button>
         <button onclick="switchTab('stoksisa')" id="tab-stoksisa" class="nav-item"><span class="nav-icon">📊</span> Stok Sisa</button>
-
         <div class="nav-section">Keuangan</div>
         <button onclick="switchTab('invoice')" id="tab-invoice" class="nav-item"><span class="nav-icon">🧾</span> Invoice</button>
-
         <div class="nav-section">Master & Arsip</div>
         <button onclick="switchTab('harga')" id="tab-harga" class="nav-item"><span class="nav-icon">💰</span> Master Data</button>
         <button onclick="switchTab('archive')" id="tab-archive" class="nav-item"><span class="nav-icon">🗄️</span> Arsip SPK</button>
         <button onclick="switchTab('archivebj')" id="tab-archivebj" class="nav-item"><span class="nav-icon">📦</span> Arsip BJ</button>
         <button onclick="switchTab('archivess')" id="tab-archivess" class="nav-item"><span class="nav-icon">📊</span> Arsip SS</button>
       </nav>
-
       <div class="px-4 pt-3 border-t" style="border-color: var(--border)">
         <div class="flex items-center gap-3 p-3 rounded-xl" style="background: var(--surface-2)">
           <div class="w-9 h-9 rounded-full bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center text-white font-extrabold text-xs" id="user-avatar">U</div>
@@ -253,7 +240,6 @@ label { color: var(--text-2); }
         </div>
       </div>
     </aside>
-
     <main class="flex-1 min-w-0 flex flex-col">
       <header class="topbar sticky top-0 z-30 px-4 sm:px-6 py-3 flex items-center justify-between gap-3">
         <div class="flex items-center gap-3">
@@ -272,7 +258,7 @@ label { color: var(--text-2); }
 
       <div class="flex-1 p-4 sm:p-6 max-w-[1600px] w-full mx-auto space-y-6">
 
-        <!-- PAGE DASHBOARD -->
+        <!-- PAGE DASHBOARD HOME -->
         <div id="page-dashboard-home" class="space-y-6">
           <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
             <div class="stat-card">
@@ -448,7 +434,7 @@ label { color: var(--text-2); }
             <div class="flex justify-between items-center border-b pb-3" style="border-color: var(--border)">
               <div>
                 <h2 class="font-extrabold text-sm" style="color: var(--text-1)">🏭 Gudang - Cek Ketersediaan</h2>
-                <p class="text-xs mt-0.5" style="color: var(--text-3)">Ceklist bahan baku, botol, box, dan sticker</p>
+                <p class="text-xs mt-0.5" style="color: var(--text-3)">Ceklist SEMUA bahan baku (termasuk dari customer), botol, box, sticker</p>
               </div>
               <span id="label-total-gudang" class="chip" style="background:#eef2ff;color:#4338ca">0 SPK</span>
             </div>
@@ -472,7 +458,7 @@ label { color: var(--text-2); }
             <div class="flex justify-between items-center border-b pb-3" style="border-color: var(--border)">
               <div>
                 <h2 class="font-extrabold text-sm" style="color: var(--text-1)">⚙️ Manajemen Produksi</h2>
-                <p class="text-xs mt-0.5" style="color: var(--text-3)">Input barang jadi, rusak, dan bahan sisa per varian</p>
+                <p class="text-xs mt-0.5" style="color: var(--text-3)">Input barang jadi + rusak. Total HARUS sama dengan Target. Kalau ada rusak, wajib isi bahan sisa.</p>
               </div>
               <span id="label-total-produksi" class="chip" style="background:#d1fae5;color:#065f46">0 SPK</span>
             </div>
@@ -806,6 +792,7 @@ const _supabaseClient = (window.supabase && typeof window.supabase.createClient 
 window.supabase = _supabaseClient;
 var supabase = _supabaseClient;
 
+// ✅ REKENING DEFAULT (hardcoded, tidak perlu DB)
 const REKENING_BCA = [
   { bank: 'BCA', nomor: '6350103005', atas_nama: 'SULAIMAN TJONDRO' },
   { bank: 'BCA', nomor: '1011628562', atas_nama: 'M. ARDIANSYAH' }
@@ -868,6 +855,74 @@ const ROLE_TEMPLATES = {
   'custom': []
 };
 
+// ==================== SAFE EXECUTE HELPER (ANTI DOUBLE) ====================
+const _activeLocks = {};
+
+async function safeExecute(lockKey, asyncFn, opts = {}) {
+  if (_activeLocks[lockKey]) {
+    showToast('⏳ Sedang diproses...', 'warning', 'Tunggu sampai selesai');
+    return { ok: false, reason: 'locked' };
+  }
+  _activeLocks[lockKey] = true;
+
+  const btn = opts.btn;
+  const originalText = opts.originalText || (btn ? btn.textContent : '');
+  const loadingText = opts.btnText || '⏳ Memproses...';
+  const originalDisabled = btn ? btn.disabled : false;
+
+  if (btn) {
+    btn.disabled = true;
+    btn.textContent = loadingText;
+  }
+
+  const safetyTimer = setTimeout(() => {
+    if (_activeLocks[lockKey]) {
+      _activeLocks[lockKey] = false;
+      if (btn) { btn.disabled = originalDisabled; btn.textContent = originalText; }
+      showToast('⏱️ Proses timeout', 'warning', 'Coba lagi');
+    }
+  }, 30000);
+
+  try {
+    const result = await asyncFn();
+    if (opts.successMsg && (!result || result.ok !== false)) {
+      showToast(opts.successMsg, 'success', opts.successSub || '');
+    }
+    return result || { ok: true };
+  } catch (err) {
+    console.error(`[safeExecute:${lockKey}]`, err);
+    showToast('Gagal: ' + (err.message || 'Terjadi kesalahan'), 'error');
+    return { ok: false, error: err };
+  } finally {
+    clearTimeout(safetyTimer);
+    _activeLocks[lockKey] = false;
+    if (btn) {
+      btn.disabled = originalDisabled;
+      btn.textContent = originalText;
+    }
+  }
+}
+
+async function checkDuplicate(table, filterCol, filterVal, extraFilter = null) {
+  try {
+    let query = supabase.from(table).select('id').eq(filterCol, filterVal);
+    if (extraFilter && extraFilter.col) {
+      query = query.eq(extraFilter.col, extraFilter.val);
+    }
+    const { data, error } = await query.limit(1);
+    if (error) {
+      if (error.code === 'PGRST205') return null;
+      console.warn(`checkDuplicate ${table}:`, error);
+      return null;
+    }
+    return (data && data.length > 0) ? data[0] : null;
+  } catch (e) {
+    console.warn(`checkDuplicate exception ${table}:`, e);
+    return null;
+  }
+}
+
+// ==================== LOAD ALL DATA ====================
 async function loadAllData() {
   try {
     try { const { data, error } = await supabase.from('master_satuan').select('*').order('id'); if (!error && data && data.length) dbSatuan = data.map(d=>d.nama); } catch(e){}
@@ -989,7 +1044,6 @@ window.onload = async function() {
   const el = document.getElementById('spk-tanggal');
   if (el) el.value = new Date().toISOString().split('T')[0];
 
-  // ✅ Paksa ke tab pertama yang diizinkan setelah semua render
   if (currentUser) {
     setTimeout(() => {
       const allowed = getAllowedTabs(currentUser);
@@ -1001,7 +1055,6 @@ window.onload = async function() {
   }
 };
 
-// ✅ Helper terpusat untuk hitung tab yang diizinkan
 function getAllowedTabs(user) {
   if (!user) return [];
   if (user.role === 'admin') return [...ROLE_TEMPLATES.admin];
@@ -1036,7 +1089,6 @@ async function handleLogin(e) {
       applyRoleAccess(currentUser);
       await loadAllData();
       renderAll();
-      // Paksa ke tab pertama yang diizinkan
       setTimeout(() => {
         const allowed = getAllowedTabs(currentUser);
         if (allowed && allowed.length) {
@@ -1065,13 +1117,11 @@ function renderAll() {
   renderArchiveSS(); renderDashboardStats(); renderUserManagement();
 }
 
-// ✅ FIXED: applyRoleAccess — pakai selector .nav-item[id^="tab-"]
 function applyRoleAccess(user) {
   if (!user) return;
   const allowedTabs = getAllowedTabs(user);
   currentUser.access = allowedTabs;
 
-  // Hide/show nav buttons
   document.querySelectorAll('.nav-item[id^="tab-"]').forEach(btn => {
     const tabId = btn.id.replace('tab-', '');
     if (allowedTabs.includes(tabId)) {
@@ -1082,7 +1132,6 @@ function applyRoleAccess(user) {
     }
   });
 
-  // Hide section header kalau semua childnya hidden
   document.querySelectorAll('.nav-section').forEach(section => {
     let next = section.nextElementSibling;
     let anyVisible = false;
@@ -1096,7 +1145,6 @@ function applyRoleAccess(user) {
     section.style.display = anyVisible ? '' : 'none';
   });
 
-  // Pastikan tab aktif masih diizinkan
   const currentActive = document.querySelector('.nav-item.active');
   const currentId = currentActive ? currentActive.id.replace('tab-', '') : null;
   if (!currentId || !allowedTabs.includes(currentId)) {
@@ -1188,13 +1236,29 @@ async function saveUser() {
   document.querySelectorAll('.menu-access:checked').forEach(cb => access.push(cb.value));
   if (!nama || !username || !password) return showToast('Semua field wajib diisi!', 'warning');
   if (access.length === 0) return showToast('Pilih minimal 1 menu!', 'warning');
-  try {
-    if (id) { const { error } = await safeDbUpdate('users', 'id', parseInt(id), { nama, username, password, role, access }); if (error) throw error; }
-    else { const { error } = await supabase.from('users').insert([{ nama, username, password, role, access }]); if (error) throw error; }
+
+  const btn = document.querySelector('#modal-user .btn-primary');
+  await safeExecute('saveUser', async () => {
+    const existing = await checkDuplicate('users', 'username', username);
+    if (existing && String(existing.id) !== String(id)) {
+      throw new Error(`Username "${username}" sudah dipakai!`);
+    }
+    if (id) {
+      const { error } = await safeDbUpdate('users', 'id', parseInt(id), { nama, username, password, role, access });
+      if (error) throw error;
+    } else {
+      const { error } = await supabase.from('users').insert([{ nama, username, password, role, access }]);
+      if (error) throw error;
+    }
     document.getElementById('modal-user').classList.add('hidden');
     await renderUserManagement();
-    showToast('User disimpan!', 'success');
-  } catch (err) { showToast('Gagal: ' + err.message, 'error'); }
+    return { ok: true };
+  }, {
+    btn: btn,
+    btnText: '⏳ Menyimpan...',
+    originalText: '💾 Simpan',
+    successMsg: id ? 'User diupdate!' : 'User ditambahkan!'
+  });
 }
 async function deleteUser(id) {
   if (!confirm('Hapus user ini?')) return;
@@ -1217,7 +1281,6 @@ const TAB_TITLES = {
   'archivebj': ['Arsip Barang Jadi','BJ yang diarsipkan'],
   'archivess': ['Arsip Stok Sisa','SS yang diarsipkan']
 };
-// ✅ FIXED: switchTab dengan guard akses
 function switchTab(t, skipGuard = false) {
   if (!skipGuard && currentUser) {
     const allowedTabs = getAllowedTabs(currentUser);
@@ -1226,21 +1289,17 @@ function switchTab(t, skipGuard = false) {
       return;
     }
   }
-
   document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
   const activeBtn = document.getElementById('tab-' + t);
   if (activeBtn) activeBtn.classList.add('active');
-
   const pages = ['dashboard-home','spk','harga','history','gudang','produksi','barangjadi','invoice','stoksisa','archive','archivebj','archivess'];
   pages.forEach(id => { const el = document.getElementById('page-' + id); if (el) el.classList.add('hidden'); });
   let targetId = (t === 'dashboard') ? 'page-dashboard-home' : 'page-' + t;
   const target = document.getElementById(targetId);
   if (target) target.classList.remove('hidden');
-
   const tt = TAB_TITLES[t] || ['Scentia','Sistem SPK'];
   document.getElementById('topbar-title').textContent = tt[0];
   document.getElementById('topbar-sub').textContent = tt[1];
-
   if (t === 'dashboard') renderDashboardStats();
   if (t === 'history') renderHistory();
   if (t === 'gudang') renderGudang();
@@ -1252,7 +1311,6 @@ function switchTab(t, skipGuard = false) {
   if (t === 'archivebj') renderArchiveBJ();
   if (t === 'archivess') renderArchiveSS();
   if (t === 'harga') renderUserManagement();
-
   if (window.innerWidth < 1024) {
     const sb = document.getElementById('sidebar');
     if (sb) { sb.classList.add('hidden'); sb.classList.remove('lg:flex','open'); }
@@ -1267,7 +1325,6 @@ function renderDashboardStats() {
   let totalBJ = 0;
   Object.values(stokBarangJadi).forEach(i => totalBJ += (i.qty||0));
   const totalInvoiceRp = listInvoice.reduce((s,i)=>s+(i.total||0),0);
-
   const s = (id, v) => { const e = document.getElementById(id); if (e) e.textContent = v; };
   s('stat-spk', totalSPK.toLocaleString('id-ID'));
   s('stat-produksi', totalProduksi);
@@ -1609,6 +1666,7 @@ async function simpanSPKUtama(e) {
   const brand = document.getElementById('spk-brand').value.trim();
   const tanggal = document.getElementById('spk-tanggal').value;
   const editId = document.getElementById('edit-spk-id').value;
+
   if(!nomor || !brand) return showToast('Isi Nomor SPK dan Brand!', 'warning');
   if(!dataVarian.length) return showToast('Tambahkan minimal 1 varian!', 'warning');
   let allValid = true;
@@ -1616,8 +1674,9 @@ async function simpanSPKUtama(e) {
   if(!allValid) return showToast('Semua varian wajib 100%!', 'error');
 
   const btn = document.getElementById('btn-simpan-spk');
-  btn.disabled = true; btn.textContent = '⏳ Menyimpan...';
-  try {
+  const origText = isEditingSPK ? '💾 Update SPK' : '💾 Simpan SPK';
+
+  await safeExecute('saveSPK', async () => {
     const cleanVarians = JSON.parse(JSON.stringify(dataVarian));
     if(editId) {
       const idNum = parseInt(editId);
@@ -1628,18 +1687,20 @@ async function simpanSPKUtama(e) {
         produksi_data: ex?.produksiData || ex?.produksi_data || {} };
       let { error } = await safeDbUpdate('spk', 'id', idNum, p, 'spk_orders');
       if (error) throw error;
-      showToast('SPK berhasil diupdate!', 'success');
+      await loadAllData(); batalEditSPK(); switchTab('history');
+      return { ok: true, msg: 'SPK berhasil diupdate!' };
     } else {
+      const existing = await checkDuplicate('spk', 'nomor', nomor);
+      if (existing) throw new Error(`Nomor SPK "${nomor}" sudah terdaftar!`);
       const newId = Date.now();
       const p = { id: newId, nomor, brand, tanggal, varians: cleanVarians, gudang_status:'menunggu', gudang_cek:{}, produksi_data:{}, created_at: new Date().toISOString() };
       let { error } = await supabase.from('spk').insert([p]);
       if (error && error.code === 'PGRST205') { let r2 = await supabase.from('spk_orders').insert([p]); error = r2.error; }
       if (error) throw error;
-      showToast('SPK berhasil disimpan!', 'success', nomor);
+      await loadAllData(); batalEditSPK(); switchTab('history');
+      return { ok: true, msg: 'SPK berhasil disimpan!', sub: nomor };
     }
-    await loadAllData(); batalEditSPK(); switchTab('history');
-  } catch(err) { showToast('Gagal: ' + err.message, 'error'); }
-  finally { btn.disabled = false; btn.textContent = isEditingSPK ? '💾 Update SPK' : '💾 Simpan SPK'; }
+  }, { btn: btn, btnText: '⏳ Menyimpan...', originalText: origText });
 }
 function editSPK(id) {
   const spk = listSPK.find(s => s.id === id);
@@ -1671,19 +1732,19 @@ function batalEditSPK() {
 }
 async function hapusSPK(id) {
   if(!confirm('Hapus SPK ini?')) return;
-  try {
+  await safeExecute('hapusSPK-' + id, async () => {
     let { error } = await supabase.from('spk').delete().eq('id', id);
     if (error && error.code === 'PGRST205') { let r = await supabase.from('spk_orders').delete().eq('id', id); error = r.error; }
     if (error) throw error;
     await loadAllData(); renderHistory(); renderDashboardStats();
-    showToast('SPK dihapus!', 'success');
-  } catch(e) { showToast('Gagal: ' + e.message, 'error'); }
+    return { ok: true, msg: 'SPK dihapus!' };
+  });
 }
 async function arsipkanSPK(id) {
   if(!confirm('Arsipkan SPK ini?')) return;
   const spk = listSPK.find(s => s.id === id);
   if(!spk) return;
-  try {
+  await safeExecute('arsipSPK-' + id, async () => {
     const ap = { id: spk.id, nomor: spk.nomor, brand: spk.brand, tanggal: spk.tanggal, varians: spk.varians||[], archived_at: new Date().toISOString() };
     const { error: insErr } = await supabase.from('archive_spk').insert([ap]);
     if (insErr) throw insErr;
@@ -1691,14 +1752,14 @@ async function arsipkanSPK(id) {
     if (delErr && delErr.code === 'PGRST205') { let r = await supabase.from('spk_orders').delete().eq('id', id); delErr = r.error; }
     if (delErr) throw delErr;
     await loadAllData(); renderHistory(); renderArchive();
-    showToast('SPK diarsipkan!', 'success');
-  } catch(e) { showToast('Gagal: ' + e.message, 'error'); }
+    return { ok: true, msg: 'SPK diarsipkan!' };
+  });
 }
 async function restoreFromArchive(id) {
   if(!confirm('Kembalikan SPK?')) return;
   const spk = archiveSPK.find(s => s.id === id);
   if(!spk) return;
-  try {
+  await safeExecute('restoreSPK-' + id, async () => {
     const rp = { id: spk.id, nomor: spk.nomor, brand: spk.brand, tanggal: spk.tanggal, varians: spk.varians||[], gudang_status: spk.gudangStatus||'menunggu', gudang_cek: spk.gudangCek||{}, created_at: new Date().toISOString() };
     let { error: i } = await supabase.from('spk').insert([rp]);
     if (i && i.code === 'PGRST205') { let r = await supabase.from('spk_orders').insert([rp]); i = r.error; }
@@ -1706,13 +1767,17 @@ async function restoreFromArchive(id) {
     const { error: d } = await supabase.from('archive_spk').delete().eq('id', id);
     if (d) throw d;
     await loadAllData(); renderHistory(); renderArchive();
-    showToast('SPK dikembalikan!', 'success');
-  } catch(e) { showToast('Gagal: ' + e.message, 'error'); }
+    return { ok: true, msg: 'SPK dikembalikan!' };
+  });
 }
 async function hapusPermanenArchive(id) {
   if(!confirm('⚠️ Hapus permanen?')) return;
-  try { const { error } = await supabase.from('archive_spk').delete().eq('id', id); if (error) throw error; await loadAllData(); renderArchive(); showToast('Dihapus!', 'success'); }
-  catch(e) { showToast('Gagal: ' + e.message, 'error'); }
+  await safeExecute('hapusPermSPK-' + id, async () => {
+    const { error } = await supabase.from('archive_spk').delete().eq('id', id);
+    if (error) throw error;
+    await loadAllData(); renderArchive();
+    return { ok: true, msg: 'SPK dihapus permanen!' };
+  });
 }
 function renderHistory() {
   const t = document.getElementById('tabel-history');
@@ -1763,7 +1828,7 @@ function renderArchive() {
   }).join('');
 }
 
-// ==================== GUDANG ====================
+// ==================== GUDANG (SEMUA BAHAN MUNCUL) ====================
 function renderGudang() {
   const list = listSPK.filter(s => !['siap','produksi','selesai'].includes(s.gudangStatus || s.gudang_status) || (s.gudangStatus === 'revisi' || s.gudang_status === 'revisi'));
   const c = document.getElementById('list-spk-gudang');
@@ -1804,8 +1869,17 @@ function renderDetailGudang(spk) {
   b.textContent = t; b.className = `status-badge ${cl}`;
   const gc = spk.gudangCek || spk.gudang_cek || {};
   const items = {};
+  // ✅ SEMUA BAHAN MUNCUL — termasuk dari customer
   (spk.varians||[]).forEach(v => {
-    if(v.bahan) v.bahan.forEach(b => { if(!b.dariCustomer) { const k = `bahan_${b.nama}`; if(!items[k]) items[k] = { kategori:'🧪 Bahan', nama: b.nama, checked: gc[k]||false }; } });
+    if(v.bahan) v.bahan.forEach(b => {
+      const k = `bahan_${b.nama}`;
+      if(!items[k]) items[k] = {
+        kategori: b.dariCustomer ? '🧪 Bahan (Customer)' : '🧪 Bahan',
+        nama: b.nama,
+        checked: gc[k]||false,
+        dariCustomer: b.dariCustomer || false
+      };
+    });
     const bk = `botol_${v.namaBotol}`;
     if(!items[bk]) items[bk] = { kategori:'🧴 Botol', nama: v.namaBotol, checked: gc[bk]||false };
     if(v.boxStatus !== 'tanpa' && v.boxStatus !== 'customer') { const bxk = `box_${v.namaBox}`; if(!items[bxk]) items[bxk] = { kategori:'📦 Box', nama: v.namaBox, checked: gc[bxk]||false }; }
@@ -1815,14 +1889,17 @@ function renderDetailGudang(spk) {
   const all = arr.every(i => i.checked);
   document.getElementById('gudang-bahan-list').innerHTML = arr.map(item => `
     <div class="cek-item flex items-center justify-between p-3 border rounded-xl ${item.checked ? 'checked border-emerald-300' : ''}" style="${item.checked?'':'background:var(--surface)'}">
-      <div><span class="text-[10px] font-bold" style="color:var(--text-3)">${item.kategori}</span><span class="font-bold text-sm ml-2" style="color:var(--text-1)">${item.nama}</span></div>
+      <div>
+        <span class="text-[10px] font-bold" style="color:${item.dariCustomer ? '#be185d' : 'var(--text-3)'}">${item.kategori}</span>
+        <span class="font-bold text-sm ml-2" style="color:var(--text-1)">${item.nama}</span>
+      </div>
       <div class="flex items-center gap-4">
         <label class="flex items-center gap-1.5 text-xs font-semibold cursor-pointer">
-          <input type="radio" name="cek_${item.nama}" ${item.checked ? 'checked' : ''} onchange="updateCekGudang(${spk.id},'${item.nama}','${item.kategori}',true)">
+          <input type="radio" name="cek_${item.nama.replace(/\s/g,'_')}" ${item.checked ? 'checked' : ''} onchange="updateCekGudang(${spk.id},'${item.nama}','${item.kategori}',true)">
           <span style="color:#059669">✅ Ada</span>
         </label>
         <label class="flex items-center gap-1.5 text-xs font-semibold cursor-pointer">
-          <input type="radio" name="cek_${item.nama}" ${!item.checked ? 'checked' : ''} onchange="updateCekGudang(${spk.id},'${item.nama}','${item.kategori}',false)">
+          <input type="radio" name="cek_${item.nama.replace(/\s/g,'_')}" ${!item.checked ? 'checked' : ''} onchange="updateCekGudang(${spk.id},'${item.nama}','${item.kategori}',false)">
           <span style="color:#be185d">❌ Tidak</span>
         </label>
       </div>
@@ -1837,17 +1914,23 @@ async function updateCekGudang(spkId, namaItem, kategori, value) {
   if(!spk) return;
   if(!spk.gudangCek) spk.gudangCek = {};
   if(!spk.gudang_cek) spk.gudang_cek = spk.gudangCek;
+
+  // Cari key yang benar untuk item ini
   let key = null;
   (spk.varians || []).forEach(v => {
-    if(v.bahan) v.bahan.forEach(b => { if(b.nama === namaItem && !b.dariCustomer) key = `bahan_${namaItem}`; });
+    if(v.bahan) v.bahan.forEach(b => { if(b.nama === namaItem) key = `bahan_${namaItem}`; });
     if(v.namaBotol === namaItem) key = `botol_${namaItem}`;
-    if(v.namaBox === namaItem && v.boxStatus !== 'tanpa' && v.boxStatus !== 'customer') key = `box_${namaItem}`;
-    if(v.namaSticker === namaItem && v.stickerStatus !== 'customer' && v.stickerStatus !== 'tanpa') key = `sticker_${namaItem}`;
+    if(v.namaBox === namaItem) key = `box_${namaItem}`;
+    if(v.namaSticker === namaItem) key = `sticker_${namaItem}`;
   });
-  if(key) { spk.gudangCek[key] = value; spk.gudang_cek[key] = value; }
+  if (!key) key = `bahan_${namaItem}`;
+  spk.gudangCek[key] = value;
+  spk.gudang_cek = spk.gudangCek;
+
+  // Hitung total keys yang harus dicek
   const keys = {};
   (spk.varians||[]).forEach(v => {
-    if(v.bahan) v.bahan.forEach(b => { if(!b.dariCustomer) keys[`bahan_${b.nama}`] = true; });
+    if(v.bahan) v.bahan.forEach(b => { keys[`bahan_${b.nama}`] = true; });
     keys[`botol_${v.namaBotol}`] = true;
     if(v.boxStatus !== 'tanpa' && v.boxStatus !== 'customer') keys[`box_${v.namaBox}`] = true;
     if(v.stickerStatus !== 'customer' && v.stickerStatus !== 'tanpa') keys[`sticker_${v.namaSticker}`] = true;
@@ -1860,26 +1943,29 @@ async function updateCekGudang(spkId, namaItem, kategori, value) {
 }
 async function lanjutProduksi() {
   const spk = listSPK.find(s => s.id === selectedGudangSPKId);
-  if(!spk) return;
-  spk.gudangStatus = 'siap'; spk.gudang_status = 'siap'; spk.produksiData = {};
-  (spk.varians||[]).forEach(v => { spk.produksiData[v.nama||'Unnamed'] = { barangJadi:0, rusak:0, bahanSisa:{} }; });
-  try {
+  if(!spk) return showToast('SPK tidak ditemukan!', 'error');
+  const btn = document.getElementById('btn-lanjut-produksi');
+  await safeExecute('lanjutProduksi', async () => {
+    const existing = await checkDuplicate('produksi', 'spk_id', spk.id);
+    if (existing) throw new Error(`SPK ${spk.nomor} sudah ada di daftar produksi!`);
+    spk.gudangStatus = 'siap'; spk.gudang_status = 'siap'; spk.produksiData = {};
+    (spk.varians||[]).forEach(v => { spk.produksiData[v.nama||'Unnamed'] = { barangJadi:0, rusak:0, bahanSisa:{} }; });
     await safeDbUpdate('spk', 'id', spk.id, { gudang_status: 'siap', produksi_data: spk.produksiData }, 'spk_orders');
-    const p = { id:`PRD-${Date.now()}`, spk_id:spk.id, nomor_spk:spk.nomor, brand:spk.brand, tanggal:spk.tanggal, varians:spk.varians, produksi_data:spk.produksiData, status:'Siap Produksi', created_at:new Date().toISOString() };
+    const p = { id:`PRD-${Date.now()}-${Math.random().toString(36).substr(2,5)}`, spk_id:spk.id, nomor_spk:spk.nomor, brand:spk.brand, tanggal:spk.tanggal, varians:spk.varians, produksi_data:spk.produksiData, status:'Siap Produksi', created_at:new Date().toISOString() };
     const { error } = await supabase.from('produksi').insert([p]);
     if (error) throw error;
     await loadAllData();
-    showToast('SPK siap produksi!', 'success', spk.nomor);
     selectedGudangSPKId = null;
     renderGudang(); renderProduksi(); switchTab('produksi');
-  } catch(e) { showToast('Gagal: ' + e.message, 'error'); }
+    return { ok: true, msg: 'SPK siap produksi!', sub: spk.nomor };
+  }, { btn: btn, btnText: '⏳ Memproses...', originalText: '🏭 LANJUT KE PRODUKSI' });
 }
 function cekGudang(spkId) {
   selectedGudangSPKId = spkId; switchTab('gudang');
   setTimeout(() => document.getElementById('detail-spk-gudang')?.scrollIntoView({ behavior:'smooth', block:'center' }), 300);
 }
 
-// ==================== PRODUKSI ====================
+// ==================== PRODUKSI (VALIDASI: Total = Target) ====================
 function renderProduksi() {
   const c = document.getElementById('list-spk-produksi');
   if (!c) return;
@@ -1890,96 +1976,203 @@ function renderProduksi() {
     const st = p.status || 'Siap Produksi';
     const prodData = p.produksiData || p.produksi_data || {};
     const varNames = Object.keys(prodData);
-    let withBJ = 0;
-    varNames.forEach(n => { if(prodData[n].barangJadi > 0) withBJ++; });
+    let validCount = 0;
+    varNames.forEach(n => {
+      const d = prodData[n];
+      const v = p.varians?.find(x => (x.nama||'Unnamed') === n);
+      const target = v?.po || 0;
+      const total = (d.barangJadi || 0) + (d.rusak || 0);
+      if (total === target && target > 0) validCount++;
+    });
     const varianDetail = varNames.map(nama => {
       const d = prodData[nama];
-      const totalPO = p.varians?.find(v => (v.nama||'Unnamed') === nama)?.po || 0;
+      const v = p.varians?.find(x => (x.nama||'Unnamed') === nama);
+      const target = v?.po || 0;
+      const bj = d.barangJadi || 0;
+      const rsk = d.rusak || 0;
+      const totalHasil = bj + rsk;
+      const isValid = (totalHasil === target) && target > 0;
+      const selisih = target - totalHasil;
       const sisaItems = Object.keys(d.bahanSisa||{}).length;
-      const has = d.barangJadi > 0;
-      return `<div class="p-3 rounded-xl border variant-card text-xs space-y-1" style="${has?'background:#f0fdf4;border-color:#86efac':'background:var(--surface-2);border-color:var(--border)'}">
+
+      let statusLine = '';
+      if (isValid) statusLine = `<span class="chip" style="background:#d1fae5;color:#065f46;font-size:9px">✅ PAS</span>`;
+      else if (totalHasil < target) statusLine = `<span class="chip" style="background:#fee2e2;color:#b91c1c;font-size:9px">⚠️ KURANG ${selisih}</span>`;
+      else statusLine = `<span class="chip" style="background:#fee2e2;color:#b91c1c;font-size:9px">⚠️ LEBIH ${Math.abs(selisih)}</span>`;
+
+      return `<div class="p-3 rounded-xl border variant-card text-xs space-y-1" style="${isValid?'background:#f0fdf4;border-color:#86efac':'background:#fef2f2;border-color:#fca5a5'}">
         <div class="flex justify-between items-center">
           <span class="font-bold" style="color:var(--text-1)">${nama}</span>
-          ${has ? '<span class="chip" style="background:#d1fae5;color:#065f46;font-size:9px">✅ Terisi</span>' : '<span class="chip" style="background:#fee2e2;color:#b91c1c;font-size:9px">⏳ Kosong</span>'}
+          ${statusLine}
         </div>
         <div class="grid grid-cols-4 gap-2">
-          <div><span style="color:var(--text-3)">Target:</span> <span class="font-bold">${totalPO}</span></div>
-          <div><span style="color:#059669">✅ Jadi:</span> <span class="font-bold">${d.barangJadi||0}</span></div>
-          <div><span style="color:#be185d">❌ Rusak:</span> <span class="font-bold">${d.rusak||0}</span></div>
-          <div><span style="color:#d97706">📦 Sisa:</span> <span class="font-bold">${sisaItems} item</span></div>
+          <div><span style="color:var(--text-3)">Target:</span> <span class="font-bold">${target.toLocaleString('id-ID')}</span></div>
+          <div><span style="color:#059669">✅ Jadi:</span> <span class="font-bold">${bj}</span></div>
+          <div><span style="color:#be185d">❌ Rusak:</span> <span class="font-bold">${rsk}</span></div>
+          <div><span style="color:#d97706">📊 Total:</span> <span class="font-bold">${totalHasil}</span></div>
         </div>
-        ${sisaItems > 0 ? `<div class="text-[10px]" style="color:var(--text-3)">Sisa: ${Object.keys(d.bahanSisa).map(k => `${k}: ${d.bahanSisa[k]}`).join(' | ')}</div>` : ''}
-        <button onclick="openModalProduksi('${p.id}','${nama}')" class="btn btn-primary px-3 py-1 text-[10px]">✏️ Edit</button>
+        <div class="flex justify-between items-center">
+          ${sisaItems > 0 ? `<div class="text-[10px]" style="color:var(--text-3)">📦 Sisa: ${Object.keys(d.bahanSisa).map(k => `${k}: ${d.bahanSisa[k]}`).join(' | ')}</div>` : (rsk > 0 ? `<span class="text-[10px] font-bold" style="color:#be185d">⚠️ Wajib isi bahan sisa (ada rusak)</span>` : '')}
+          <button onclick="openModalProduksi('${p.id}','${nama.replace(/'/g,"\\'")}')" class="btn btn-primary px-3 py-1 text-[10px]">✏️ Edit</button>
+        </div>
       </div>`;
     }).join('');
-    const allHave = varNames.length > 0 && withBJ === varNames.length;
-    const canFinish = st === 'Sedang Produksi' && allHave;
+    const allValid = varNames.length > 0 && validCount === varNames.length;
+    const canFinish = st === 'Sedang Produksi' && allValid;
     return `<div class="card p-4 space-y-3 card-hover">
       <div class="flex flex-wrap justify-between items-start gap-2">
         <div>
           <span class="mono font-bold text-sm" style="color:var(--primary)">${p.nomorSPK}</span>
           <span class="text-xs ml-2" style="color:var(--text-3)">${p.brand||'-'}</span>
           <span class="text-xs ml-2" style="color:var(--text-3)">${p.tanggal||'-'}</span>
-          <span class="text-xs font-bold ml-2" style="color:${allHave?'#059669':'#d97706'}">${allHave?'✅ Semua terisi':`⏳ ${withBJ}/${varNames.length}`}</span>
+          <span class="text-xs font-bold ml-2" style="color:${allValid?'#059669':'#d97706'}">${allValid?'✅ Semua varian PAS':`⏳ ${validCount}/${varNames.length} PAS`}</span>
         </div>
         <div class="flex flex-wrap gap-2">
           <span class="status-badge ${sm[st]||'siap'}">${st}</span>
           ${st !== 'Selesai' ? `<button onclick="revisiProduksi('${p.id}')" class="btn px-3 py-1.5 text-[10px]" style="background:#fed7aa;color:#9a3412">🔄 Revisi</button>` : ''}
           ${st === 'Siap Produksi' ? `<button onclick="mulaiProduksi('${p.id}')" class="btn btn-primary px-3 py-1.5 text-[10px]">▶️ Mulai</button>` : ''}
-          ${st === 'Sedang Produksi' ? `<button onclick="openModalSelesaiProduksi('${p.id}')" ${!canFinish?'disabled':''} class="btn btn-success px-3 py-1.5 text-[10px] disabled:opacity-50">✅ Selesai${!canFinish?` (${withBJ}/${varNames.length})`:''}</button>` : ''}
+          ${st === 'Sedang Produksi' ? `<button onclick="openModalSelesaiProduksi('${p.id}')" ${!canFinish?'disabled':''} class="btn btn-success px-3 py-1.5 text-[10px] disabled:opacity-50">✅ Selesai${!canFinish?` (${validCount}/${varNames.length})`:''}</button>` : ''}
           <button onclick="hapusProduksi('${p.id}')" class="btn btn-danger px-3 py-1.5 text-[10px]">🗑️</button>
         </div>
       </div>
       ${varianDetail}
+      ${st === 'Sedang Produksi' && !allValid ? `<div class="text-xs text-amber-700 font-medium bg-amber-50 p-2 rounded-xl border border-amber-200">⚠️ Total Barang Jadi + Rusak HARUS SAMA dengan Target. (${validCount}/${varNames.length} sudah PAS)</div>` : ''}
     </div>`;
   }).join('');
 }
+
 function openModalProduksi(prodId, varianNama) {
   const prod = daftarProduksi.find(p => p.id === prodId);
   if(!prod) return;
   modalProduksiData = { prodId, varianNama, prod };
   const prodData = prod.produksiData || prod.produksi_data || {};
   const data = prodData[varianNama] || { barangJadi:0, rusak:0, bahanSisa:{} };
-  document.getElementById('modal-produksi-title').textContent = `✏️ Edit - ${prod.nomorSPK} - ${varianNama}`;
+  const v = prod.varians?.find(x => (x.nama||'Unnamed') === varianNama);
+  const target = v?.po || 0;
+
+  document.getElementById('modal-produksi-title').textContent = `✏️ Edit - ${prod.nomorSPK} - ${varianNama} (Target: ${target.toLocaleString('id-ID')} pcs)`;
+
   let sisa = '';
-  Object.keys(data.bahanSisa||{}).forEach(key => {
+  Object.keys(data.bahanSisa||{}).forEach((key, i) => {
     const parts = String(data.bahanSisa[key]).split(' ');
     const qty = parts[0] || '0';
     const sat = parts.slice(1).join(' ') || 'Unit';
-    sisa += `<div class="flex items-center gap-2">
-      <input type="text" value="${key}" class="border p-2 rounded-xl text-xs flex-1 sisa-name">
-      <input type="number" value="${qty}" class="border p-2 rounded-xl text-xs w-20 sisa-qty">
-      <select class="border p-2 rounded-xl text-xs sisa-satuan">${dbSatuan.map(s => `<option value="${s}" ${s===sat?'selected':''}>${s}</option>`).join('')}</select>
-      <button onclick="this.parentElement.remove()" class="text-xs font-bold" style="color:#be185d">✕</button>
-    </div>`;
+    sisa += renderSisaRow(key, qty, sat, i);
   });
+
   document.getElementById('modal-produksi-body').innerHTML = `
+    <div class="p-3 rounded-xl text-xs font-bold" style="background:#eef2ff;border:1px solid #c7d2fe;color:#4338ca">
+      🎯 Target: ${target.toLocaleString('id-ID')} pcs — Total Barang Jadi + Rusak HARUS = ${target.toLocaleString('id-ID')}
+    </div>
     <div class="grid grid-cols-2 gap-4">
-      <div><label class="block text-xs font-bold uppercase mb-1.5">Barang Jadi</label>
-        <div class="flex gap-2"><input type="number" id="modal-bj" value="${data.barangJadi||0}" class="flex-1 border p-3 rounded-xl text-sm font-bold">
-        <select id="modal-bj-satuan" class="border p-3 rounded-xl text-sm">${dbSatuan.map(s => `<option value="${s}" ${(data.barangJadiSatuan||'Pcs')===s?'selected':''}>${s}</option>`).join('')}</select></div></div>
-      <div><label class="block text-xs font-bold uppercase mb-1.5">Rusak</label>
-        <div class="flex gap-2"><input type="number" id="modal-rusak" value="${data.rusak||0}" class="flex-1 border p-3 rounded-xl text-sm font-bold">
-        <select id="modal-rusak-satuan" class="border p-3 rounded-xl text-sm">${dbSatuan.map(s => `<option value="${s}" ${(data.rusakSatuan||'Pcs')===s?'selected':''}>${s}</option>`).join('')}</select></div></div>
+      <div>
+        <label class="block text-xs font-bold uppercase mb-1.5">Barang Jadi</label>
+        <div class="flex gap-2">
+          <input type="number" id="modal-bj" value="${data.barangJadi||0}" oninput="checkTotalProduksi()" class="flex-1 border p-3 rounded-xl text-sm font-bold">
+          <select id="modal-bj-satuan" class="border p-3 rounded-xl text-sm">${dbSatuan.map(s => `<option value="${s}" ${(data.barangJadiSatuan||'Pcs')===s?'selected':''}>${s}</option>`).join('')}</select>
+        </div>
+      </div>
+      <div>
+        <label class="block text-xs font-bold uppercase mb-1.5">Rusak</label>
+        <div class="flex gap-2">
+          <input type="number" id="modal-rusak" value="${data.rusak||0}" oninput="checkTotalProduksi()" class="flex-1 border p-3 rounded-xl text-sm font-bold">
+          <select id="modal-rusak-satuan" class="border p-3 rounded-xl text-sm">${dbSatuan.map(s => `<option value="${s}" ${(data.rusakSatuan||'Pcs')===s?'selected':''}>${s}</option>`).join('')}</select>
+        </div>
+      </div>
     </div>
-    <div><label class="block text-xs font-bold uppercase mb-2">Bahan Sisa</label>
-      <div id="modal-sisa-container" class="space-y-2">${sisa || '<div class="text-xs text-center py-2" style="color:var(--text-3)">Belum ada sisa</div>'}</div>
-      <button onclick="addModalSisa()" class="btn px-3 py-1.5 text-xs mt-2" style="background:#fef3c7;color:#92400e">+ Tambah Sisa</button>
+    <div id="total-info" class="p-3 rounded-xl text-xs font-bold text-center"></div>
+    <div id="warning-sisa" class="hidden p-3 rounded-xl text-xs font-bold" style="background:#fee2e2;border:1px solid #fecaca;color:#be185d">
+      ⚠️ Ada barang rusak — WAJIB isi minimal 1 bahan sisa!
     </div>
-    <input type="hidden" id="modal-varian" value="${varianNama}">`;
+    <div>
+      <div class="flex justify-between items-center mb-2">
+        <label class="block text-xs font-bold uppercase">Bahan Sisa</label>
+        <span class="text-[10px]" style="color:var(--text-3)" id="sisa-label">${data.rusak > 0 ? '🔴 Wajib diisi (ada rusak)' : 'Opsional'}</span>
+      </div>
+      <div id="modal-sisa-container" class="space-y-2">${sisa || '<div class="text-xs text-center py-2" style="color:var(--text-3)">Belum ada bahan sisa</div>'}</div>
+      <button type="button" onclick="addModalSisa()" class="btn px-3 py-1.5 text-xs mt-2" style="background:#fef3c7;color:#92400e">+ Tambah Bahan Sisa</button>
+    </div>
+    <input type="hidden" id="modal-varian" value="${varianNama}">
+    <input type="hidden" id="modal-target" value="${target}">`;
   document.getElementById('modal-produksi').classList.remove('hidden');
+  checkTotalProduksi();
 }
+
+function renderSisaRow(nama, qty, sat, idx) {
+  const isManual = nama && !Object.keys(dbHarga).includes(nama);
+  const bahanOptions = Object.keys(dbHarga).map(h => `<option value="${h}" ${nama===h?'selected':''}>${h}</option>`).join('');
+  const satOptions = dbSatuan.map(s => `<option value="${s}" ${sat===s?'selected':''}>${s}</option>`).join('');
+  return `<div class="flex items-center gap-1 sisa-row">
+    <select class="sisa-name-select border p-2 rounded-xl text-xs flex-1 font-semibold" onchange="handleSisaNameChange(this)">
+      <option value="">-- Pilih Bahan --</option>
+      ${bahanOptions}
+      <option value="__manual__" ${isManual ? 'selected' : ''}>✏️ Manual (Ketik Sendiri)</option>
+    </select>
+    <input type="text" placeholder="Nama bahan manual" value="${isManual ? nama : ''}" class="sisa-name-manual border p-2 rounded-xl text-xs flex-1 ${isManual ? '' : 'hidden'}">
+    <input type="number" placeholder="Qty" value="${qty}" class="sisa-qty border p-2 rounded-xl text-xs w-20 text-center font-bold">
+    <select class="sisa-satuan border p-2 rounded-xl text-xs">${satOptions}</select>
+    <button type="button" onclick="this.parentElement.remove(); checkTotalProduksi();" class="text-rose-500 text-xs font-bold px-2 hover:text-rose-700">✕</button>
+  </div>`;
+}
+
+function handleSisaNameChange(sel) {
+  const row = sel.closest('.sisa-row');
+  const manualInput = row.querySelector('.sisa-name-manual');
+  if (sel.value === '__manual__') {
+    manualInput.classList.remove('hidden');
+    manualInput.focus();
+  } else {
+    manualInput.classList.add('hidden');
+    manualInput.value = '';
+  }
+  checkTotalProduksi();
+}
+
+function checkTotalProduksi() {
+  const bj = parseInt(document.getElementById('modal-bj')?.value) || 0;
+  const rsk = parseInt(document.getElementById('modal-rusak')?.value) || 0;
+  const target = parseInt(document.getElementById('modal-target')?.value) || 0;
+  const total = bj + rsk;
+  const diff = target - total;
+  const info = document.getElementById('total-info');
+  if (!info) return;
+  if (total === target && target > 0) {
+    info.style.background = '#d1fae5'; info.style.color = '#065f46'; info.style.border = '1px solid #86efac';
+    info.innerHTML = `✅ PAS! Total: ${total.toLocaleString('id-ID')} = Target: ${target.toLocaleString('id-ID')}`;
+  } else if (total < target) {
+    info.style.background = '#fee2e2'; info.style.color = '#b91c1c'; info.style.border = '1px solid #fca5a5';
+    info.innerHTML = `⚠️ KURANG ${diff.toLocaleString('id-ID')} pcs — Total: ${total.toLocaleString('id-ID')} / Target: ${target.toLocaleString('id-ID')}`;
+  } else {
+    info.style.background = '#fee2e2'; info.style.color = '#b91c1c'; info.style.border = '1px solid #fca5a5';
+    info.innerHTML = `⚠️ LEBIH ${Math.abs(diff).toLocaleString('id-ID')} pcs — Total: ${total.toLocaleString('id-ID')} / Target: ${target.toLocaleString('id-ID')}`;
+  }
+  const warnSisa = document.getElementById('warning-sisa');
+  const sisaLabel = document.getElementById('sisa-label');
+  if (sisaLabel) sisaLabel.innerHTML = rsk > 0 ? '🔴 Wajib diisi (ada rusak)' : 'Opsional';
+  if (warnSisa) {
+    const sisaContainer = document.getElementById('modal-sisa-container');
+    const hasSisa = sisaContainer ? Array.from(sisaContainer.querySelectorAll('.sisa-row')).some(row => {
+      const sel = row.querySelector('.sisa-name-select');
+      const manual = row.querySelector('.sisa-name-manual');
+      const nama = (sel && sel.value && sel.value !== '__manual__') ? sel.value : (manual ? manual.value.trim() : '');
+      const qty = row.querySelector('.sisa-qty')?.value;
+      return nama && parseFloat(qty) > 0;
+    }) : false;
+    warnSisa.classList.toggle('hidden', !(rsk > 0 && !hasSisa));
+  }
+}
+
 function closeModal() { document.getElementById('modal-produksi').classList.add('hidden'); modalProduksiData = null; }
+
 function addModalSisa() {
   const c = document.getElementById('modal-sisa-container');
   if(c.querySelector('.text-xs.text-center')) c.innerHTML = '';
-  c.innerHTML += `<div class="flex items-center gap-2">
-    <input type="text" placeholder="Nama Bahan" class="border p-2 rounded-xl text-xs flex-1 sisa-name">
-    <input type="number" placeholder="Qty" class="border p-2 rounded-xl text-xs w-20 sisa-qty">
-    <select class="border p-2 rounded-xl text-xs sisa-satuan">${dbSatuan.map(s => `<option value="${s}">${s}</option>`).join('')}</select>
-    <button onclick="this.parentElement.remove()" class="text-xs font-bold" style="color:#be185d">✕</button>
-  </div>`;
+  const wrapper = document.createElement('div');
+  wrapper.innerHTML = renderSisaRow('', '', 'Pcs', Date.now());
+  c.appendChild(wrapper.firstElementChild);
+  checkTotalProduksi();
 }
+
 async function saveModalProduksi() {
   if(!modalProduksiData) return;
   const { prodId, varianNama, prod } = modalProduksiData;
@@ -1987,12 +2180,37 @@ async function saveModalProduksi() {
   const bjS = document.getElementById('modal-bj-satuan').value;
   const rusak = parseInt(document.getElementById('modal-rusak').value) || 0;
   const rusakS = document.getElementById('modal-rusak-satuan').value;
+  const target = parseInt(document.getElementById('modal-target').value) || 0;
+
+  // ✅ VALIDASI 1: Total harus = Target
+  if ((bj + rusak) !== target) {
+    showToast('❌ Total Barang Jadi + Rusak harus SAMA dengan Target!', 'error', `Total: ${bj+rusak} / Target: ${target}`);
+    return;
+  }
+
+  // Kumpulkan bahan sisa
   const sc = document.getElementById('modal-sisa-container');
   const fs = {};
-  sc.querySelectorAll('.flex').forEach(el => {
-    const n = el.querySelector('.sisa-name'), q = el.querySelector('.sisa-qty'), s = el.querySelector('.sisa-satuan');
-    if(n && n.value.trim() && q && parseFloat(q.value) > 0) fs[n.value.trim()] = parseFloat(q.value) + ' ' + (s?s.value:'Unit');
+  sc.querySelectorAll('.sisa-row').forEach(el => {
+    const sel = el.querySelector('.sisa-name-select');
+    const manual = el.querySelector('.sisa-name-manual');
+    const q = el.querySelector('.sisa-qty');
+    const s = el.querySelector('.sisa-satuan');
+    let nama = '';
+    if (sel && sel.value && sel.value !== '__manual__') nama = sel.value;
+    else if (manual && manual.value.trim()) nama = manual.value.trim();
+    const qty = parseFloat(q?.value) || 0;
+    if (nama && qty > 0) {
+      fs[nama] = qty + ' ' + (s ? s.value : 'Unit');
+    }
   });
+
+  // ✅ VALIDASI 2: Kalau ada rusak, wajib isi minimal 1 bahan sisa
+  if (rusak > 0 && Object.keys(fs).length === 0) {
+    showToast('❌ Ada barang rusak — WAJIB isi minimal 1 bahan sisa!', 'error');
+    return;
+  }
+
   if(!prod.produksiData) prod.produksiData = {};
   prod.produksiData[varianNama] = { barangJadi:bj, barangJadiSatuan:bjS, rusak, rusakSatuan:rusakS, bahanSisa:fs };
   prod.produksi_data = prod.produksiData;
@@ -2000,10 +2218,12 @@ async function saveModalProduksi() {
   closeModal(); renderProduksi();
   showToast('Data produksi disimpan!', 'success');
 }
+
 async function mulaiProduksi(id) {
   const p = daftarProduksi.find(x => x.id === id);
   if(p) { p.status = 'Sedang Produksi'; try { await safeDbUpdate('produksi', 'id', id, { status: 'Sedang Produksi' }); } catch(e) {} renderProduksi(); showToast('Produksi dimulai!', 'success'); }
 }
+
 function openModalSelesaiProduksi(id) {
   const prod = daftarProduksi.find(p => p.id === id);
   if(!prod) return;
@@ -2012,6 +2232,25 @@ function openModalSelesaiProduksi(id) {
   if (!varNames.length) return showToast('Tidak ada varian!', 'warning');
   const spk = listSPK.find(s => s.id == (prod.spkId || prod.spk_id));
   if (!spk) return showToast('SPK asli tidak ditemukan!', 'error');
+
+  // ✅ VALIDASI: Total tiap varian harus = Target
+  let allValid = true;
+  const problems = [];
+  varNames.forEach(nama => {
+    const d = prodData[nama];
+    const v = spk.varians?.find(x => (x.nama||'Unnamed') === nama);
+    const target = v?.po || 0;
+    const total = (d.barangJadi || 0) + (d.rusak || 0);
+    if (total !== target) {
+      allValid = false;
+      problems.push(`${nama}: ${total}/${target}`);
+    }
+  });
+  if (!allValid) {
+    showToast('❌ Belum bisa selesai!', 'error', 'Varian belum PAS: ' + problems.join(', '));
+    return;
+  }
+
   let grandTotal = 0; const items = [];
   varNames.forEach(nama => {
     const d = prodData[nama];
@@ -2024,47 +2263,57 @@ function openModalSelesaiProduksi(id) {
     items.push({ nama, ukuran: v.ukuran, qty: d.barangJadi, harga: Math.round(hpp), subtotal: Math.round(sub) });
   });
   pendingSelesaiProduksi = { prodId:id, items, grandTotal, spkId:spk.id, spkNomor:spk.nomor, brand:spk.brand, customer:spk.brand };
+
+  let summaryRows = varNames.map(nama => {
+    const d = prodData[nama];
+    const v = spk.varians?.find(x => (x.nama||'Unnamed') === nama);
+    const target = v?.po || 0;
+    return `<div class="flex justify-between text-xs p-2 rounded-lg" style="background:var(--surface);border:1px solid var(--border)">
+      <span class="font-bold" style="color:var(--text-1)">${nama}</span>
+      <span><span style="color:#059669">✅ ${d.barangJadi||0}</span> + <span style="color:#be185d">❌ ${d.rusak||0}</span> = <b>${(d.barangJadi||0)+(d.rusak||0)}</b> / ${target}</span>
+    </div>`;
+  }).join('');
+
   document.getElementById('modal-selesai-body').innerHTML = `
     <div class="p-3 rounded-xl" style="background:#fef3c7;border:2px solid #fde68a">
       <p class="text-sm font-bold" style="color:#92400e">⚠️ Konfirmasi Selesai Produksi</p>
       <p class="text-xs mt-1" style="color:#a16207">SPK <b>${spk.nomor}</b> — ${spk.brand}</p>
     </div>
     <div class="p-3 rounded-xl" style="background:var(--surface-2);border:1px solid var(--border)">
-      <p class="text-xs font-bold mb-2" style="color:var(--text-1)">📦 Barang Jadi yang akan disimpan:</p>
+      <p class="text-xs font-bold mb-2" style="color:var(--text-1)">📊 Ringkasan Per Varian:</p>
+      <div class="space-y-2">${summaryRows}</div>
+    </div>
+    <div class="p-3 rounded-xl" style="background:var(--surface-2);border:1px solid var(--border)">
+      <p class="text-xs font-bold mb-2" style="color:var(--text-1)">📦 Barang Jadi yang akan masuk stok:</p>
       <div class="space-y-2">${items.map(it => `<div class="flex justify-between items-center p-2 rounded-lg text-xs" style="background:var(--surface);border:1px solid var(--border)">
         <div><p class="font-bold" style="color:var(--text-1)">${it.nama}</p><p class="text-[10px]" style="color:var(--text-3)">${it.ukuran} ml × ${it.qty} pcs</p></div>
         <div class="text-right"><p class="font-bold" style="color:#059669">Rp ${it.subtotal.toLocaleString('id-ID')}</p><p class="text-[10px]" style="color:var(--text-3)">@ Rp ${it.harga.toLocaleString('id-ID')}</p></div>
       </div>`).join('')}</div>
     </div>
     <div class="p-4 rounded-xl" style="background:#f0fdfa;border:2px solid #5eead4">
-      <div class="flex justify-between items-center mb-2"><span class="text-xs font-bold uppercase" style="color:#0f766e">🧾 Invoice akan otomatis dibuat:</span><span class="chip" style="background:#ccfbf1;color:#115e59;font-size:9px">AUTO</span></div>
-      <div class="text-xs space-y-1 mb-3" style="color:#115e59">
-        <p>• Customer: <b>${spk.brand}</b></p>
-        <p>• Jumlah item: <b>${items.length} varian</b></p>
-        <p>• Status: <b>DRAFT</b> (bisa diedit nanti)</p>
-      </div>
+      <div class="flex justify-between items-center mb-2"><span class="text-xs font-bold uppercase" style="color:#0f766e">🧾 Invoice otomatis:</span><span class="chip" style="background:#ccfbf1;color:#115e59;font-size:9px">AUTO</span></div>
       <div class="p-3 rounded-lg text-center" style="background:white;border:2px solid #14b8a6">
-        <p class="text-[10px] font-bold uppercase mb-1" style="color:var(--text-3)">GRAND TOTAL INVOICE</p>
+        <p class="text-[10px] font-bold uppercase mb-1" style="color:var(--text-3)">GRAND TOTAL</p>
         <p class="text-2xl font-extrabold" style="color:#0f766e">Rp ${grandTotal.toLocaleString('id-ID')}</p>
       </div>
-    </div>
-    <div class="p-3 rounded-lg" style="background:#ecfdf5;border:1px solid #a7f3d0">
-      <p class="text-[11px]" style="color:#065f46"><b>✅ Yang akan terjadi:</b><br>
-      1. Barang jadi masuk ke Stok Barang Jadi<br>
-      2. SPK ditandai <b>Selesai</b><br>
-      3. Data dihapus dari daftar Produksi<br>
-      4. 🆕 Invoice otomatis dibuat</p>
     </div>`;
   document.getElementById('modal-selesai-produksi').classList.remove('hidden');
 }
+
 function closeModalSelesai() { document.getElementById('modal-selesai-produksi').classList.add('hidden'); pendingSelesaiProduksi = null; }
+
 async function konfirmasiSelesaiProduksi() {
   if (!pendingSelesaiProduksi) return;
   const { prodId, items, grandTotal, spkId, spkNomor, brand } = pendingSelesaiProduksi;
-  document.getElementById('modal-selesai-produksi').classList.add('hidden');
-  const prod = daftarProduksi.find(p => p.id === prodId);
-  if (!prod) { showToast('Produksi tidak ditemukan!', 'error'); return; }
-  try {
+  const btn = document.querySelector('#modal-selesai-produksi .btn-success');
+
+  await safeExecute('selesaiProduksi', async () => {
+    document.getElementById('modal-selesai-produksi').classList.add('hidden');
+    const prod = daftarProduksi.find(p => p.id === prodId);
+    if (!prod) throw new Error('Produksi tidak ditemukan!');
+    const existingInv = await checkDuplicate('invoices', 'spk_id', spkId);
+    if (existingInv) throw new Error(`Invoice untuk SPK ${spkNomor} sudah ada!`);
+
     await safeDbUpdate('spk', 'id', prod.spkId || prod.spk_id, { gudang_status: 'selesai' }, 'spk_orders');
     const spk = listSPK.find(s => s.id == (prod.spkId || prod.spk_id));
     const sisaData = {};
@@ -2096,26 +2345,30 @@ async function konfirmasiSelesaiProduksi() {
     await supabase.from('produksi').delete().eq('id', prodId);
     await loadAllData();
     renderProduksi(); renderHistory(); renderBarangJadi(); renderStokSisa(); renderInvoice(); renderDashboardStats();
-    showToast(`Produksi selesai!`, 'success', `Invoice ${invNo} dibuat (DRAFT)`);
     switchTab('invoice');
-  } catch(e) { showToast('Gagal: ' + e.message, 'error'); }
+    return { ok: true, msg: `Produksi selesai!`, sub: `Invoice ${invNo} dibuat (DRAFT)` };
+  }, { btn: btn, btnText: '⏳ Menyelesaikan...', originalText: '✅ Ya, Selesai + Buat Invoice' });
 }
+
 async function revisiProduksi(id) {
   if(!confirm('🔄 Kembalikan ke Gudang?')) return;
   const prod = daftarProduksi.find(p => p.id === id);
   if(!prod) return;
-  try {
+  await safeExecute('revisiProduksi-' + id, async () => {
     await safeDbUpdate('spk', 'id', prod.spkId || prod.spk_id, { gudang_status: 'revisi', gudang_cek: {} }, 'spk_orders');
     await supabase.from('produksi').delete().eq('id', id);
     await loadAllData(); renderProduksi(); renderGudang();
-    showToast('Dikembalikan ke Gudang', 'warning');
     switchTab('gudang');
-  } catch(e) { showToast('Gagal: ' + e.message, 'error'); }
+    return { ok: true, msg: 'Dikembalikan ke Gudang', sub: 'Silakan revisi ceklist' };
+  });
 }
 async function hapusProduksi(id) {
   if(!confirm('Hapus dari daftar produksi?')) return;
-  try { await supabase.from('produksi').delete().eq('id', id); await loadAllData(); renderProduksi(); showToast('Dihapus!', 'success'); }
-  catch(e) { showToast('Gagal: ' + e.message, 'error'); }
+  await safeExecute('hapusProduksi-' + id, async () => {
+    await supabase.from('produksi').delete().eq('id', id);
+    await loadAllData(); renderProduksi();
+    return { ok: true, msg: 'Dihapus!' };
+  });
 }
 
 // ==================== BARANG JADI ====================
@@ -2152,8 +2405,8 @@ function renderBarangJadi() {
       <span class="font-semibold" style="color:var(--text-1)">${item.key.replace(`${brand} - `,'').replace(` (${item.ukuran}ml)`,'')}</span>
       <div class="flex items-center gap-3">
         <span class="font-bold" style="color:#059669">${item.qty} ${item.satuan||'Pcs'}</span>
-        <button onclick="arsipkanBarangJadi('${item.key}')" class="font-bold" style="color:#d97706">📦 Arsip</button>
-        <button onclick="hapusBarangJadi('${item.key}')" class="font-bold" style="color:#be185d">🗑️</button>
+        <button onclick="arsipkanBarangJadi('${item.key.replace(/'/g,"\\'")}')" class="font-bold" style="color:#d97706">📦 Arsip</button>
+        <button onclick="hapusBarangJadi('${item.key.replace(/'/g,"\\'")}')" class="font-bold" style="color:#be185d">🗑️</button>
       </div>
     </div>`).join('');
     return `<div class="card p-4 space-y-2 card-hover">
@@ -2165,8 +2418,8 @@ function renderBarangJadi() {
         </div>
         <div class="flex items-center gap-2">
           <span class="chip" style="background:#d1fae5;color:#065f46">${total} Total</span>
-          <button onclick="openLaporanBarangJadi('${brand}')" class="btn btn-primary px-3 py-1.5 text-[10px]">📄 Laporan</button>
-          <button onclick="quickCreateInvoice('${brand}')" class="btn btn-success px-3 py-1.5 text-[10px]">🧾 Invoice</button>
+          <button onclick="openLaporanBarangJadi('${brand.replace(/'/g,"\\'")}')" class="btn btn-primary px-3 py-1.5 text-[10px]">📄 Laporan</button>
+          <button onclick="quickCreateInvoice('${brand.replace(/'/g,"\\'")}')" class="btn btn-success px-3 py-1.5 text-[10px]">🧾 Invoice</button>
         </div>
       </div>
       <div class="p-2 rounded-lg" style="background:var(--surface-2)">${detail}</div>
@@ -2186,47 +2439,48 @@ async function arsipkanBarangJadi(key) {
   if(!confirm(`Arsipkan "${key}"?`)) return;
   const item = stokBarangJadi[key];
   if(!item) return;
-  try {
+  await safeExecute('arsipBJ-' + key, async () => {
     const ap = { key_name:key, brand:item.brand, ukuran:String(item.ukuran||'-'), qty:item.qty, satuan:item.satuan||'Pcs', archived_at:new Date().toISOString() };
     let { error } = await supabase.from('archive_barang_jadi').insert([ap]);
     if (error && error.code === 'PGRST205') await supabase.from('archive_bj').insert([{ key, brand:item.brand, ukuran:String(item.ukuran||'-'), qty:item.qty, satuan:item.satuan||'Pcs', tanggal:new Date().toISOString().split('T')[0], archived_at:new Date().toISOString() }]);
     if (item.id) await supabase.from('stok_barang_jadi').delete().eq('id', item.id);
     else await supabase.from('stok_barang_jadi').delete().eq('key_name', key);
     await loadAllData(); renderBarangJadi(); renderArchiveBJ(); renderDashboardStats();
-    showToast('Diarsipkan!', 'success');
-  } catch(e) { showToast('Gagal: ' + e.message, 'error'); }
+    return { ok: true, msg: 'Barang jadi diarsipkan!' };
+  });
 }
 async function restoreBarangJadi(key) {
   if(!confirm(`Kembalikan "${key}"?`)) return;
   const item = archiveBJ.find(i => i.key === key);
   if(!item) return;
-  try {
+  await safeExecute('restoreBJ-' + key, async () => {
     let { error } = await supabase.from('stok_barang_jadi').insert([{ key_name:key, brand:item.brand, ukuran:String(item.ukuran||'-'), qty:item.qty, satuan:item.satuan||'Pcs', tanggal:new Date().toISOString() }]);
     if (error && error.code === 'PGRST205') await supabase.from('barang_jadi').insert([{ key, brand:item.brand, ukuran:String(item.ukuran||'-'), qty:item.qty, satuan:item.satuan||'Pcs', tanggal:new Date().toISOString() }]);
     if (item.id) await supabase.from('archive_barang_jadi').delete().eq('id', item.id);
     else await supabase.from('archive_barang_jadi').delete().eq('key_name', key);
     await loadAllData(); renderBarangJadi(); renderArchiveBJ();
-    showToast('Dikembalikan!', 'success');
-  } catch(e) { showToast('Gagal: ' + e.message, 'error'); }
+    return { ok: true, msg: 'Barang jadi dikembalikan!' };
+  });
 }
 async function hapusBarangJadi(key) {
   if(!confirm(`Hapus "${key}"?`)) return;
   const item = stokBarangJadi[key];
-  try {
+  await safeExecute('hapusBJ-' + key, async () => {
     if (item?.id) await supabase.from('stok_barang_jadi').delete().eq('id', item.id);
     else await supabase.from('stok_barang_jadi').delete().eq('key_name', key);
     await loadAllData(); renderBarangJadi(); renderDashboardStats();
-  } catch(e) { showToast('Gagal: ' + e.message, 'error'); }
+    return { ok: true, msg: 'Dihapus!' };
+  });
 }
 async function hapusPermanenBJ(key) {
   if(!confirm(`⚠️ Hapus permanen "${key}"?`)) return;
   const item = archiveBJ.find(i => i.key === key);
-  try {
+  await safeExecute('hapusPermBJ-' + key, async () => {
     if (item?.id) await supabase.from('archive_barang_jadi').delete().eq('id', item.id);
     else await supabase.from('archive_barang_jadi').delete().eq('key_name', key);
     await loadAllData(); renderArchiveBJ();
-    showToast('Dihapus!', 'success');
-  } catch(e) { showToast('Gagal: ' + e.message, 'error'); }
+    return { ok: true, msg: 'Dihapus permanen!' };
+  });
 }
 function renderArchiveBJ() {
   const c = document.getElementById('list-archivebj');
@@ -2240,8 +2494,8 @@ function renderArchiveBJ() {
       <span class="text-xs ml-2" style="color:var(--text-3)">${item.ukuran||'-'} ml</span></div>
       <div class="flex items-center gap-2">
         <span class="chip" style="background:#f1f5f9;color:#334155">${item.qty} ${item.satuan||'Pcs'}</span>
-        <button onclick="restoreBarangJadi('${item.key}')" class="btn btn-success px-3 py-1.5 text-[10px]">↩️ Kembalikan</button>
-        <button onclick="hapusPermanenBJ('${item.key}')" class="btn btn-danger px-3 py-1.5 text-[10px]">🗑️ Hapus</button>
+        <button onclick="restoreBarangJadi('${item.key.replace(/'/g,"\\'")}')" class="btn btn-success px-3 py-1.5 text-[10px]">↩️ Kembalikan</button>
+        <button onclick="hapusPermanenBJ('${item.key.replace(/'/g,"\\'")}')" class="btn btn-danger px-3 py-1.5 text-[10px]">🗑️ Hapus</button>
       </div>
     </div>
   </div>`).join('');
@@ -2348,22 +2602,44 @@ async function saveInvoice() {
   const sub = invoiceItems.reduce((s,i)=>s+(i.qty||0)*(i.harga||0),0);
   const total = sub - diskon;
   const sisa = total - dp;
-  const p = { spk_id: spkId||null, spk_nomor: spk?.nomor||null, brand: spk?.brand||customer, customer, tanggal, due_date:dueDate, items:invoiceItems, subtotal:sub, diskon, total, dp, sisa, status, catatan, created_at:new Date().toISOString() };
-  try {
-    if (id) { const { error } = await safeDbUpdate('invoices', 'id', id, p); if (error) throw error; showToast('Invoice diupdate!', 'success'); }
-    else { p.nomor = genInvoiceNumber(); p.id = `INV-${Date.now()}`; const { error } = await supabase.from('invoices').insert([p]); if (error) throw error; showToast(`Invoice ${p.nomor} dibuat!`, 'success'); }
+  const btn = document.querySelector('#modal-invoice .btn-success');
+
+  await safeExecute('saveInvoice', async () => {
+    const p = { spk_id: spkId||null, spk_nomor: spk?.nomor||null, brand: spk?.brand||customer, customer, tanggal, due_date:dueDate, items:invoiceItems, subtotal:sub, diskon, total, dp, sisa, status, catatan, created_at:new Date().toISOString() };
+    if (id) {
+      const { error } = await safeDbUpdate('invoices', 'id', id, p);
+      if (error) throw error;
+    } else {
+      if (spkId) {
+        const existing = await checkDuplicate('invoices', 'spk_id', spkId);
+        if (existing) throw new Error(`Invoice untuk SPK ini sudah ada!`);
+      }
+      p.nomor = genInvoiceNumber();
+      p.id = `INV-${Date.now()}`;
+      const { error } = await supabase.from('invoices').insert([p]);
+      if (error) throw error;
+    }
     document.getElementById('modal-invoice').classList.add('hidden');
     await loadAllData(); renderInvoice(); renderDashboardStats();
-  } catch(err) { showToast('Gagal: ' + err.message, 'error'); }
+    return { ok: true };
+  }, { btn: btn, btnText: '⏳ Menyimpan...', originalText: '💾 Simpan Invoice', successMsg: id ? 'Invoice diupdate!' : 'Invoice dibuat!' });
 }
 async function deleteInvoice(id) {
   if (!confirm('Hapus invoice ini?')) return;
-  try { const { error } = await supabase.from('invoices').delete().eq('id', id); if (error) throw error; await loadAllData(); renderInvoice(); renderDashboardStats(); showToast('Invoice dihapus!', 'success'); }
-  catch(e) { showToast('Gagal: ' + e.message, 'error'); }
+  await safeExecute('delInv-' + id, async () => {
+    const { error } = await supabase.from('invoices').delete().eq('id', id);
+    if (error) throw error;
+    await loadAllData(); renderInvoice(); renderDashboardStats();
+    return { ok: true, msg: 'Invoice dihapus!' };
+  });
 }
 async function updateInvoiceStatus(id, st) {
-  try { const { error } = await safeDbUpdate('invoices', 'id', id, { status: st }); if (error) throw error; await loadAllData(); renderInvoice(); showToast('Status diupdate!', 'success'); }
-  catch(e) { showToast('Gagal: ' + e.message, 'error'); }
+  await safeExecute('updInv-' + id, async () => {
+    const { error } = await safeDbUpdate('invoices', 'id', id, { status: st });
+    if (error) throw error;
+    await loadAllData(); renderInvoice();
+    return { ok: true, msg: 'Status diupdate!' };
+  });
 }
 function renderInvoice() {
   const c = document.getElementById('list-invoice');
@@ -2419,87 +2695,6 @@ function renderInvoice() {
   }).join('');
 }
 
-// ==================== CETAK INVOICE PDF ====================
-async function cetakInvoicePDF(id) {
-  const inv = listInvoice.find(i => i.id === id);
-  if (!inv) return showToast('Invoice tidak ditemukan!', 'error');
-  const ra = document.getElementById('pdf-render-area');
-  ra.innerHTML = '';
-  const rows = inv.items.map((it, i) => `<tr>
-    <td class="p-2 border text-center">${i+1}</td>
-    <td class="p-2 border">${it.nama}${it.ukuran?' · '+it.ukuran:''}</td>
-    <td class="p-2 border text-center">${it.qty} ${it.satuan||'Pcs'}</td>
-    <td class="p-2 border text-right">Rp ${Math.round(it.harga).toLocaleString('id-ID')}</td>
-    <td class="p-2 border text-right font-bold">Rp ${Math.round((it.qty||0)*(it.harga||0)).toLocaleString('id-ID')}</td>
-  </tr>`).join('');
-  const reken = REKENING_BCA.map((r, i) => `${i>0?'<div class="border-t border-blue-200 my-2"></div>':''}
-    <div class="flex items-center gap-3"><span class="font-bold text-blue-900 w-16">${r.bank}:</span><span class="mono font-extrabold text-base">${r.nomor}</span></div>
-    <div class="flex items-center gap-3 pl-20"><span class="text-slate-500 text-xs">a/n</span><span class="font-bold text-xs">${r.atas_nama}</span></div>`).join('');
-  ra.insertAdjacentHTML('beforeend', `<div id="pdf-invoice" class="a4-page" style="font-family:'Plus Jakarta Sans',sans-serif">
-    <div>
-      <div class="pdf-header flex justify-between items-start pb-3" style="border-bottom:3px solid #1e293b">
-        <div><h1 class="text-2xl font-extrabold text-indigo-950 tracking-wide">CV SCENTIA ULTIMACOS</h1>
-          <p class="text-[10px] text-slate-500 font-semibold uppercase">Manufacturing Parfum</p>
-          <p class="text-[9px] text-slate-400 mt-1">Jl. Industri Parfum No. 88, Jakarta · info@scentia.co.id</p></div>
-        <div class="text-right"><h2 class="text-3xl font-extrabold" style="color:#0f766e">INVOICE</h2>
-          <p class="mono font-bold text-slate-800 text-sm mt-1">${inv.nomor}</p></div>
-      </div>
-      <div class="grid grid-cols-2 gap-4 mt-6">
-        <div class="p-3 rounded-lg" style="background:#f8fafc;border:1px solid #e2e8f0">
-          <p class="text-[9px] font-bold text-slate-500 uppercase">Ditagihkan Kepada:</p>
-          <p class="font-bold text-sm text-slate-800 mt-1">${inv.customer}</p>
-          ${inv.brand && inv.brand !== inv.customer ? `<p class="text-xs text-slate-500">${inv.brand}</p>` : ''}
-        </div>
-        <div class="p-3 rounded-lg" style="background:#f8fafc;border:1px solid #e2e8f0">
-          <div class="grid grid-cols-2 gap-2 text-xs">
-            <span class="text-slate-500">Tanggal:</span><span class="font-bold text-right">${inv.tanggal||'-'}</span>
-            <span class="text-slate-500">Jatuh Tempo:</span><span class="font-bold text-right">${inv.dueDate||'-'}</span>
-            ${inv.spkNomor?`<span class="text-slate-500">Ref SPK:</span><span class="font-bold text-right mono text-[10px]">${inv.spkNomor}</span>`:''}
-            <span class="text-slate-500">Status:</span><span class="font-bold text-right uppercase">${inv.status}</span>
-          </div>
-        </div>
-      </div>
-      <table class="w-full border-collapse mt-4 text-xs">
-        <thead style="background:#0f766e;color:white">
-          <tr><th class="p-2 border w-10">#</th><th class="p-2 border text-left">Item</th><th class="p-2 border text-center w-24">Qty</th><th class="p-2 border text-right w-28">Harga</th><th class="p-2 border text-right w-32">Subtotal</th></tr>
-        </thead>
-        <tbody>${rows}</tbody>
-      </table>
-      <div class="flex justify-end mt-4"><div class="w-64 space-y-1">
-        <div class="flex justify-between text-xs p-2"><span>Subtotal:</span><span class="font-bold">Rp ${Math.round(inv.subtotal).toLocaleString('id-ID')}</span></div>
-        ${inv.diskon > 0 ? `<div class="flex justify-between text-xs p-2" style="color:#be185d"><span>Diskon:</span><span class="font-bold">- Rp ${Math.round(inv.diskon).toLocaleString('id-ID')}</span></div>` : ''}
-        <div class="flex justify-between text-sm p-2 rounded-lg font-extrabold" style="background:#f0fdfa;border:2px solid #5eead4;color:#0f766e"><span>TOTAL:</span><span>Rp ${Math.round(inv.total).toLocaleString('id-ID')}</span></div>
-        ${inv.dp > 0 ? `<div class="flex justify-between text-xs p-2"><span>DP Diterima:</span><span class="font-bold" style="color:#059669">Rp ${Math.round(inv.dp).toLocaleString('id-ID')}</span></div>` : ''}
-        ${inv.sisa > 0 ? `<div class="flex justify-between text-sm p-2 rounded-lg font-bold" style="background:#fef2f2;border:1px solid #fecaca;color:#be185d"><span>SISA BAYAR:</span><span>Rp ${Math.round(inv.sisa).toLocaleString('id-ID')}</span></div>` : ''}
-      </div></div>
-      ${inv.catatan ? `<div class="mt-4 p-3 rounded-lg text-xs" style="background:#fffbeb;border:1px solid #fde68a"><b>Catatan:</b> ${inv.catatan}</div>` : ''}
-      <div class="mt-5 p-4 rounded-lg" style="background:#eff6ff;border:2px solid #93c5fd">
-        <p class="text-[11px] font-extrabold text-blue-900 mb-3 uppercase tracking-wider">💳 Info Pembayaran — Transfer ke Rekening:</p>
-        <div class="space-y-2 text-sm text-slate-800">${reken}</div>
-        <p class="text-[10px] italic mt-3 pt-2 text-slate-500" style="border-top:1px solid #bfdbfe">Mohon konfirmasi bukti transfer ke WA admin setelah pembayaran.</p>
-      </div>
-      <div class="grid grid-cols-2 text-center text-xs gap-8 mt-6">
-        <div><p class="text-slate-500">Penerima,</p><div class="h-14"></div><p class="font-bold pt-1" style="border-top:1px solid #cbd5e1">${inv.customer}</p></div>
-        <div><p class="text-slate-500">Hormat kami,</p><div class="h-14"></div><p class="font-bold pt-1" style="border-top:1px solid #cbd5e1">CV Scentia Ultimacos</p></div>
-      </div>
-    </div>
-    <div class="pdf-footer flex justify-between items-center" style="border-top:2px solid #e2e8f0;padding-top:8px;font-size:8px;color:#94a3b8">
-      <span>Invoice ${inv.nomor}</span><span>Terima kasih 🙏</span><span>Hal 1/1</span>
-    </div>
-  </div>`);
-  setTimeout(async () => {
-    try {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
-      const el = document.getElementById('pdf-invoice');
-      const cv = await html2canvas(el, { scale:2, useCORS:true, logging:false });
-      doc.addImage(cv.toDataURL('image/jpeg', 0.95), 'JPEG', 0, 0, 210, 297);
-      doc.save(`${inv.nomor.replace(/[\/\\]/g,'_')}_${inv.customer.replace(/[^a-zA-Z0-9]/g,'_')}.pdf`);
-      showToast('Invoice PDF berhasil diunduh!', 'success');
-    } catch(err) { showToast('Gagal PDF: ' + err.message, 'error'); }
-  }, 400);
-}
-
 // ==================== STOK SISA ====================
 function renderStokSisa() {
   const rt = document.getElementById('realtime-stok-sisa');
@@ -2521,7 +2716,7 @@ function renderStokSisa() {
       <td class="p-2.5 border-b mono text-xs">${item.spk}</td>
       <td class="p-2.5 border-b text-right font-bold" style="color:#6d28d9">${item.sisa}</td>
       <td class="p-2.5 border-b text-center text-xs">${item.tanggal}</td>
-      <td class="p-2.5 border-b text-center"><button onclick="hapusSisaBahan('${item.laporanId}','${item.varian}','${item.bahan}')" class="text-xs font-bold" style="color:#be185d">🗑️</button></td>
+      <td class="p-2.5 border-b text-center"><button onclick="hapusSisaBahan('${item.laporanId}','${item.varian.replace(/'/g,"\\'")}','${item.bahan.replace(/'/g,"\\'")}')" class="text-xs font-bold" style="color:#be185d">🗑️</button></td>
     </tr>`).join('');
   } else if (rt) rt.classList.add('hidden');
   const c = document.getElementById('list-stoksisa');
@@ -2558,46 +2753,53 @@ async function hapusSisaBahan(laporanId, varian, bahan) {
   if(l.sisaData && l.sisaData[varian]) {
     delete l.sisaData[varian][bahan];
     if(Object.keys(l.sisaData[varian]).length === 0) delete l.sisaData[varian];
-    try {
+    await safeExecute('hapusSisaBahan-' + laporanId, async () => {
       if(Object.keys(l.sisaData).length === 0) await supabase.from('stok_sisa').delete().eq('id', laporanId);
       else await safeDbUpdate('stok_sisa', 'id', laporanId, { sisa_data: l.sisaData });
       await loadAllData(); renderStokSisa();
-    } catch(e) { showToast('Gagal: ' + e.message, 'error'); }
+      return { ok: true, msg: 'Bahan sisa dihapus!' };
+    });
   }
 }
 async function hapusLaporanStokSisa(id) {
   if(!confirm('Hapus laporan ini?')) return;
-  try { await supabase.from('stok_sisa').delete().eq('id', id); await loadAllData(); renderStokSisa(); showToast('Dihapus!', 'success'); }
-  catch(e) { showToast('Gagal: ' + e.message, 'error'); }
+  await safeExecute('hapusLaporanSS-' + id, async () => {
+    await supabase.from('stok_sisa').delete().eq('id', id);
+    await loadAllData(); renderStokSisa();
+    return { ok: true, msg: 'Dihapus!' };
+  });
 }
 async function arsipkanStokSisa(id) {
   if(!confirm('Arsipkan laporan ini?')) return;
   const l = stokSisa.find(s => s.id === id);
   if(!l) return;
-  try {
+  await safeExecute('arsipSS-' + id, async () => {
     const ap = { id:l.id, spk_id:l.spkId, nomor_spk:l.nomorSPK, brand:l.brand, tanggal:l.tanggal, sisa_data:l.sisaData, archived_at:new Date().toISOString() };
     let { error } = await supabase.from('archive_stok_sisa').insert([ap]);
     if (error && error.code === 'PGRST205') await supabase.from('archive_ss').insert([ap]);
     await supabase.from('stok_sisa').delete().eq('id', id);
     await loadAllData(); renderStokSisa(); renderArchiveSS();
-    showToast('Diarsipkan!', 'success');
-  } catch(e) { showToast('Gagal: ' + e.message, 'error'); }
+    return { ok: true, msg: 'Diarsipkan!' };
+  });
 }
 async function restoreStokSisa(id) {
   if(!confirm('Kembalikan dari arsip?')) return;
   const item = archiveSS.find(i => i.id === id);
   if(!item) return;
-  try {
+  await safeExecute('restoreSS-' + id, async () => {
     await supabase.from('stok_sisa').insert([{ id:item.id, spk_id:item.spkId, nomor_spk:item.nomorSPK, brand:item.brand, tanggal:item.tanggal, sisa_data:item.sisaData, created_at:new Date().toISOString() }]);
     await supabase.from('archive_stok_sisa').delete().eq('id', id);
     await loadAllData(); renderStokSisa(); renderArchiveSS();
-    showToast('Dikembalikan!', 'success');
-  } catch(e) { showToast('Gagal: ' + e.message, 'error'); }
+    return { ok: true, msg: 'Dikembalikan!' };
+  });
 }
 async function hapusPermanenSS(id) {
   if(!confirm('⚠️ Hapus permanen?')) return;
-  try { await supabase.from('archive_stok_sisa').delete().eq('id', id); await loadAllData(); renderArchiveSS(); showToast('Dihapus!', 'success'); }
-  catch(e) { showToast('Gagal: ' + e.message, 'error'); }
+  await safeExecute('hapusPermSS-' + id, async () => {
+    await supabase.from('archive_stok_sisa').delete().eq('id', id);
+    await loadAllData(); renderArchiveSS();
+    return { ok: true, msg: 'Dihapus permanen!' };
+  });
 }
 function renderArchiveSS() {
   const c = document.getElementById('list-archivess');
@@ -2693,7 +2895,6 @@ function renderVarianBlockPortrait(v, idx) {
   const po = v.po || 0;
   const ukuran = v.ukuran || 0;
   const totalVol = po * ukuran;
-
   const bahanRows = (v.bahan || []).map(b => {
     const mlPerBotol = (b.persen / 100) * ukuran;
     const totalMl = (b.persen / 100) * ukuran * po;
@@ -2705,9 +2906,7 @@ function renderVarianBlockPortrait(v, idx) {
       <td style="padding:4px 6px;border:1px solid #cbd5e1;text-align:right;font-weight:700;color:#312e81;">${totalMl.toFixed(0)} ml</td>
     </tr>`;
   }).join('');
-
   const totalPersen = (v.bahan || []).reduce((s, b) => s + (b.persen || 0), 0);
-
   const kemasanParts = [];
   if (v.namaBotol) kemasanParts.push(`Botol: ${v.namaBotol} (${po.toLocaleString('id-ID')} pcs)`);
   if (v.boxStatus !== 'tanpa' && v.boxStatus !== 'customer') kemasanParts.push(`Box: ${v.namaBox} (${po.toLocaleString('id-ID')} pcs)`);
@@ -2716,10 +2915,8 @@ function renderVarianBlockPortrait(v, idx) {
   if (v.stickerStatus !== 'tanpa' && v.stickerStatus !== 'customer') kemasanParts.push(`Sticker: ${v.namaSticker} (${po.toLocaleString('id-ID')} pcs)`);
   else if (v.stickerStatus === 'customer') kemasanParts.push(`Sticker: dari Customer`);
   if (v.finishing) kemasanParts.push(`Finishing: ${v.finishing}`);
-
   const hppPerBotol = hitungHPPPerBotolPDF(v);
   const totalHPP = hppPerBotol * po;
-
   return `
   <div class="varian-block" data-varian-idx="${idx}" style="margin-bottom:10px;border:2px solid #312e81;border-radius:8px;padding:8px;background:#fafaff;">
     <div style="display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,#312e81,#4c1d95);color:white;padding:6px 10px;border-radius:5px;margin-bottom:6px;">
@@ -2788,7 +2985,6 @@ function renderCostingBlockPortrait(v, idx) {
   const boxDisplay = v.boxStatus === 'tanpa' ? 'Tanpa Box' : (v.boxStatus === 'customer' ? `${v.namaBox} (Cust)` : (v.namaBox || '-'));
   const stickerDisplay = v.stickerStatus === 'customer' ? `${v.namaSticker} (Cust)` : v.stickerStatus === 'tanpa' ? 'Tanpa Sticker' : (v.namaSticker || '-');
   const botolDisplay = v.botolDariCustomer ? `${v.namaBotol} (Cust)` : (v.namaBotol || '-');
-
   return `
   <div class="costing-block" data-costing-idx="${idx}" style="border:2px solid #312e81;border-radius:8px;padding:8px;background:#fafaff;margin-bottom:10px;">
     <div style="display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,#312e81,#4c1d95);color:white;padding:5px 10px;border-radius:5px;margin-bottom:6px;">
@@ -2830,7 +3026,6 @@ function renderPageHeaderPortrait(spk, title, hal, totalHal) {
     <div>
       <h1 style="font-size:15px;font-weight:800;color:#1e1b4b;margin:0;">CV SCENTIA ULTIMACOS</h1>
       <p style="font-size:9px;font-weight:700;color:#4f46e5;margin:1px 0;text-transform:uppercase;">${title}</p>
-      
     </div>
     <div style="text-align:right;">
       <span style="background:#1e1b4b;color:white;font-size:8px;font-weight:700;padding:2px 8px;border-radius:3px;">SPK DOCUMENT</span>
@@ -2839,6 +3034,7 @@ function renderPageHeaderPortrait(spk, title, hal, totalHal) {
     </div>
   </div>`;
 }
+
 async function cetakPDF(spkId) {
   const spk = listSPK.find(s => s.id === spkId);
   if(!spk) return showToast('Data tidak ditemukan!', 'error');
@@ -2861,7 +3057,6 @@ async function cetakPDF(spkId) {
     grandTotalAll += hitungHPPPerBotolPDF(v) * (v.po || 0);
   });
 
-  // STEP 1: UKUR TINGGI TIAP VARIAN BLOCK
   const measureId = 'measure-' + Date.now();
   ra.insertAdjacentHTML('beforeend', `
     <div id="${measureId}" style="width:${CONTENT_W}mm;padding:0;background:white;font-family:'Plus Jakarta Sans',system-ui,sans-serif;">
@@ -2875,10 +3070,7 @@ async function cetakPDF(spkId) {
 
   const varianHeights = [];
   measureEl.querySelectorAll('.varian-block').forEach(el => {
-    varianHeights.push({
-      idx: parseInt(el.dataset.varianIdx),
-      heightMm: el.offsetHeight * pxToMm
-    });
+    varianHeights.push({ idx: parseInt(el.dataset.varianIdx), heightMm: el.offsetHeight * pxToMm });
   });
 
   const headerH = 25;
@@ -2886,11 +3078,9 @@ async function cetakPDF(spkId) {
   const grandTotalH = 22;
   const ttdH = 30;
 
-  // STEP 2: SIMULASI PEMBAGIAN HALAMAN
   const pages = [];
   let currentPage = [];
   let currentH = headerH + infoBlockH + 6;
-
   varianHeights.forEach(vh => {
     if (currentH + vh.heightMm > MAX_H && currentPage.length > 0) {
       pages.push({ varianIdx: currentPage, isFirst: pages.length === 0 });
@@ -2900,9 +3090,7 @@ async function cetakPDF(spkId) {
     currentPage.push(vh.idx);
     currentH += vh.heightMm + 4;
   });
-  if (currentPage.length > 0) {
-    pages.push({ varianIdx: currentPage, isFirst: pages.length === 0 });
-  }
+  if (currentPage.length > 0) pages.push({ varianIdx: currentPage, isFirst: pages.length === 0 });
 
   const lastPage = pages[pages.length - 1];
   let lastPageH = headerH + 6;
@@ -2911,44 +3099,31 @@ async function cetakPDF(spkId) {
     if (vh) lastPageH += vh.heightMm + 4;
   });
   const needExtraPage = (lastPageH + grandTotalH + ttdH + 12) > MAX_H;
-
   const summaryPages = pages.length + (needExtraPage ? 1 : 0);
-
   const costingPerPage = 2;
   const costingPages = [];
   for (let i = 0; i < spk.varians.length; i += costingPerPage) {
     costingPages.push(spk.varians.slice(i, i + costingPerPage).map((v, j) => i + j));
   }
-
   const totalPages = summaryPages + costingPages.length + 1;
   ra.innerHTML = '';
   ra.style.cssText = 'position:absolute; left:-9999px; top:0; width:' + F4_W + 'mm; background:white;';
 
-  // STEP 3: RENDER HALAMAN SUMMARY
   pages.forEach((pg, pIdx) => {
     const pageNum = pIdx + 1;
     const varianHTMLs = pg.varianIdx.map(idx => renderVarianBlockPortrait(spk.varians[idx], idx)).join('');
     const isLastSummary = pIdx === pages.length - 1;
     const showGrandAndTTD = isLastSummary && !needExtraPage;
-
     const grandTotalBlock = `
     <div style="margin-top:8px;padding:8px;background:linear-gradient(135deg,#e0e7ff,#f3e8ff);border:2px solid #312e81;border-radius:6px;text-align:center;">
       <div style="font-size:9.5px;font-weight:700;color:#312e81;text-transform:uppercase;">💰 GRAND TOTAL HPP × PO (SEMUA VARIAN)</div>
       <div style="font-size:17px;font-weight:800;color:#1e1b4b;margin-top:3px;">Rp ${Math.round(grandTotalAll).toLocaleString('id-ID')}</div>
     </div>`;
-
     const ttdBlock = `
     <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:30px;margin-top:14px;text-align:center;font-size:9.5px;">
-      <div>
-        <p style="color:#64748b;margin-bottom:28px;">Disiapkan oleh,</p>
-        <p style="font-weight:700;border-top:1px solid #94a3b8;padding-top:3px;">Admin Lab</p>
-      </div>
-      <div>
-        <p style="color:#64748b;margin-bottom:28px;">Disetujui oleh,</p>
-        <p style="font-weight:700;border-top:1px solid #94a3b8;padding-top:3px;">SPV Produksi</p>
-      </div>
+      <div><p style="color:#64748b;margin-bottom:28px;">Disiapkan oleh,</p><p style="font-weight:700;border-top:1px solid #94a3b8;padding-top:3px;">Admin Lab</p></div>
+      <div><p style="color:#64748b;margin-bottom:28px;">Disetujui oleh,</p><p style="font-weight:700;border-top:1px solid #94a3b8;padding-top:3px;">SPV Produksi</p></div>
     </div>`;
-
     ra.insertAdjacentHTML('beforeend', `
     <div id="pdf-page-${pIdx}" style="width:${F4_W}mm;height:${F4_H}mm;padding:${MARGIN}mm;background:white;font-family:'Plus Jakarta Sans',system-ui,sans-serif;box-sizing:border-box;display:flex;flex-direction:column;">
       ${renderPageHeaderPortrait(spk, pIdx === 0 ? 'Summary Kebutuhan Bahan Baku' : 'Summary Kebutuhan Bahan Baku (Lanjutan)', pageNum, totalPages)}
@@ -2977,14 +3152,8 @@ async function cetakPDF(spkId) {
         <div style="font-size:22px;font-weight:800;color:#1e1b4b;margin-top:4px;">Rp ${Math.round(grandTotalAll).toLocaleString('id-ID')}</div>
       </div>
       <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:30px;margin-top:24px;text-align:center;font-size:9.5px;">
-        <div>
-          <p style="color:#64748b;margin-bottom:35px;">Disiapkan oleh,</p>
-          <p style="font-weight:700;border-top:1px solid #94a3b8;padding-top:3px;">Admin Lab</p>
-        </div>
-        <div>
-          <p style="color:#64748b;margin-bottom:35px;">Disetujui oleh,</p>
-          <p style="font-weight:700;border-top:1px solid #94a3b8;padding-top:3px;">SPV Produksi</p>
-        </div>
+        <div><p style="color:#64748b;margin-bottom:35px;">Disiapkan oleh,</p><p style="font-weight:700;border-top:1px solid #94a3b8;padding-top:3px;">Admin Lab</p></div>
+        <div><p style="color:#64748b;margin-bottom:35px;">Disetujui oleh,</p><p style="font-weight:700;border-top:1px solid #94a3b8;padding-top:3px;">SPV Produksi</p></div>
       </div>
       <div style="text-align:center;font-size:7.5px;color:#94a3b8;margin-top:auto;border-top:1px solid #e2e8f0;padding-top:4px;">
         CV Scentia Ultimacos · ${spk.nomor} · Hal ${pageNum}/${totalPages}
@@ -2992,7 +3161,6 @@ async function cetakPDF(spkId) {
     </div>`);
   }
 
-  // STEP 4: RENDER HALAMAN COSTING
   costingPages.forEach((varianIdxs, pIdx) => {
     const pageNum = summaryPages + pIdx + 1;
     const blocksHTML = varianIdxs.map(idx => renderCostingBlockPortrait(spk.varians[idx], idx)).join('');
@@ -3006,7 +3174,6 @@ async function cetakPDF(spkId) {
     </div>`);
   });
 
-  // STEP 5: RENDER HALAMAN REKAP PO
   const finalPageNum = totalPages;
   const rekapRows = spk.varians.map(v => {
     const hpp = hitungHPPPerBotolPDF(v);
@@ -3051,48 +3218,28 @@ async function cetakPDF(spkId) {
       </div>
     </div>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:30px;text-align:center;font-size:9.5px;">
-      <div>
-        <p style="color:#64748b;margin-bottom:35px;">Dibuat Oleh,</p>
-        <p style="font-weight:700;border-top:1px solid #94a3b8;padding-top:3px;">( Admin Lab )</p>
-      </div>
-      <div>
-        <p style="color:#64748b;margin-bottom:35px;">Penanggung Jawab,</p>
-        <p style="font-weight:700;border-top:1px solid #94a3b8;padding-top:3px;">( SPV Produksi )</p>
-      </div>
-      <div>
-        <p style="color:#64748b;margin-bottom:35px;">Disetujui,</p>
-        <p style="font-weight:700;border-top:1px solid #94a3b8;padding-top:3px;">( Client / Brand )</p>
-      </div>
+      <div><p style="color:#64748b;margin-bottom:35px;">Dibuat Oleh,</p><p style="font-weight:700;border-top:1px solid #94a3b8;padding-top:3px;">( Admin Lab )</p></div>
+      <div><p style="color:#64748b;margin-bottom:35px;">Penanggung Jawab,</p><p style="font-weight:700;border-top:1px solid #94a3b8;padding-top:3px;">( SPV Produksi )</p></div>
+      <div><p style="color:#64748b;margin-bottom:35px;">Disetujui,</p><p style="font-weight:700;border-top:1px solid #94a3b8;padding-top:3px;">( Client / Brand )</p></div>
     </div>
     <div style="text-align:center;font-size:7.5px;color:#94a3b8;margin-top:auto;border-top:1px solid #e2e8f0;padding-top:4px;">
       CV Scentia Ultimacos · ${spk.nomor} · Hal ${finalPageNum}/${totalPages}
     </div>
   </div>`);
 
-  // STEP 6: GENERATE PDF F4 PORTRAIT
   await new Promise(r => setTimeout(r, 400));
-
   try {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: [F4_W, F4_H] });
-
     const allPages = ra.querySelectorAll('[id^="pdf-page-"], [id^="pdf-costing-page-"], [id^="pdf-rekap-page"]');
     let isFirst = true;
-
     for (const el of allPages) {
       if (!isFirst) doc.addPage([F4_W, F4_H], 'portrait');
       isFirst = false;
-
-      const canvas = await html2canvas(el, {
-        scale: 2,
-        useCORS: true,
-        logging: false,
-        backgroundColor: '#ffffff'
-      });
+      const canvas = await html2canvas(el, { scale: 2, useCORS: true, logging: false, backgroundColor: '#ffffff' });
       const imgData = canvas.toDataURL('image/jpeg', 0.95);
       doc.addImage(imgData, 'JPEG', 0, 0, F4_W, F4_H);
     }
-
     doc.save(`${spk.nomor.replace(/[\/\\]/g,'_')}_${spk.brand}_SPK_F4.pdf`);
     ra.innerHTML = '';
     ra.style.cssText = 'position:absolute; left:-9999px; top:-9999px;';
@@ -3103,6 +3250,88 @@ async function cetakPDF(spkId) {
   }
 }
 
+// ==================== PDF INVOICE (REKENING DEFAULT) ====================
+async function cetakInvoicePDF(id) {
+  const inv = listInvoice.find(i => i.id === id);
+  if (!inv) return showToast('Invoice tidak ditemukan!', 'error');
+  const ra = document.getElementById('pdf-render-area');
+  ra.innerHTML = '';
+  const rows = inv.items.map((it, i) => `<tr>
+    <td class="p-2 border text-center">${i+1}</td>
+    <td class="p-2 border">${it.nama}${it.ukuran?' · '+it.ukuran:''}</td>
+    <td class="p-2 border text-center">${it.qty} ${it.satuan||'Pcs'}</td>
+    <td class="p-2 border text-right">Rp ${Math.round(it.harga).toLocaleString('id-ID')}</td>
+    <td class="p-2 border text-right font-bold">Rp ${Math.round((it.qty||0)*(it.harga||0)).toLocaleString('id-ID')}</td>
+  </tr>`).join('');
+  // ✅ PAKAI REKENING_BCA (hardcoded)
+  const reken = REKENING_BCA.map((r, i) => `${i>0?'<div class="border-t border-blue-200 my-2"></div>':''}
+    <div class="flex items-center gap-3"><span class="font-bold text-blue-900 w-16">${r.bank}:</span><span class="mono font-extrabold text-base">${r.nomor}</span></div>
+    <div class="flex items-center gap-3 pl-20"><span class="text-slate-500 text-xs">a/n</span><span class="font-bold text-xs">${r.atas_nama}</span></div>`).join('');
+  ra.insertAdjacentHTML('beforeend', `<div id="pdf-invoice" class="a4-page" style="font-family:'Plus Jakarta Sans',sans-serif">
+    <div>
+      <div class="pdf-header flex justify-between items-start pb-3" style="border-bottom:3px solid #1e293b">
+        <div><h1 class="text-2xl font-extrabold text-indigo-950 tracking-wide">CV SCENTIA ULTIMACOS</h1>
+          <p class="text-[10px] text-slate-500 font-semibold uppercase">Manufacturing Parfum</p></div>
+        <div class="text-right"><h2 class="text-3xl font-extrabold" style="color:#0f766e">INVOICE</h2>
+          <p class="mono font-bold text-slate-800 text-sm mt-1">${inv.nomor}</p></div>
+      </div>
+      <div class="grid grid-cols-2 gap-4 mt-6">
+        <div class="p-3 rounded-lg" style="background:#f8fafc;border:1px solid #e2e8f0">
+          <p class="text-[9px] font-bold text-slate-500 uppercase">Ditagihkan Kepada:</p>
+          <p class="font-bold text-sm text-slate-800 mt-1">${inv.customer}</p>
+          ${inv.brand && inv.brand !== inv.customer ? `<p class="text-xs text-slate-500">${inv.brand}</p>` : ''}
+        </div>
+        <div class="p-3 rounded-lg" style="background:#f8fafc;border:1px solid #e2e8f0">
+          <div class="grid grid-cols-2 gap-2 text-xs">
+            <span class="text-slate-500">Tanggal:</span><span class="font-bold text-right">${inv.tanggal||'-'}</span>
+            <span class="text-slate-500">Jatuh Tempo:</span><span class="font-bold text-right">${inv.dueDate||'-'}</span>
+            ${inv.spkNomor?`<span class="text-slate-500">Ref SPK:</span><span class="font-bold text-right mono text-[10px]">${inv.spkNomor}</span>`:''}
+            <span class="text-slate-500">Status:</span><span class="font-bold text-right uppercase">${inv.status}</span>
+          </div>
+        </div>
+      </div>
+      <table class="w-full border-collapse mt-4 text-xs">
+        <thead style="background:#0f766e;color:white">
+          <tr><th class="p-2 border w-10">#</th><th class="p-2 border text-left">Item</th><th class="p-2 border text-center w-24">Qty</th><th class="p-2 border text-right w-28">Harga</th><th class="p-2 border text-right w-32">Subtotal</th></tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+      <div class="flex justify-end mt-4"><div class="w-64 space-y-1">
+        <div class="flex justify-between text-xs p-2"><span>Subtotal:</span><span class="font-bold">Rp ${Math.round(inv.subtotal).toLocaleString('id-ID')}</span></div>
+        ${inv.diskon > 0 ? `<div class="flex justify-between text-xs p-2" style="color:#be185d"><span>Diskon:</span><span class="font-bold">- Rp ${Math.round(inv.diskon).toLocaleString('id-ID')}</span></div>` : ''}
+        <div class="flex justify-between text-sm p-2 rounded-lg font-extrabold" style="background:#f0fdfa;border:2px solid #5eead4;color:#0f766e"><span>TOTAL:</span><span>Rp ${Math.round(inv.total).toLocaleString('id-ID')}</span></div>
+        ${inv.dp > 0 ? `<div class="flex justify-between text-xs p-2"><span>DP Diterima:</span><span class="font-bold" style="color:#059669">Rp ${Math.round(inv.dp).toLocaleString('id-ID')}</span></div>` : ''}
+        ${inv.sisa > 0 ? `<div class="flex justify-between text-sm p-2 rounded-lg font-bold" style="background:#fef2f2;border:1px solid #fecaca;color:#be185d"><span>SISA BAYAR:</span><span>Rp ${Math.round(inv.sisa).toLocaleString('id-ID')}</span></div>` : ''}
+      </div></div>
+      ${inv.catatan ? `<div class="mt-4 p-3 rounded-lg text-xs" style="background:#fffbeb;border:1px solid #fde68a"><b>Catatan:</b> ${inv.catatan}</div>` : ''}
+      <div class="mt-5 p-4 rounded-lg" style="background:#eff6ff;border:2px solid #93c5fd">
+        <p class="text-[11px] font-extrabold text-blue-900 mb-3 uppercase tracking-wider">💳 Info Pembayaran — Transfer ke Rekening:</p>
+        <div class="space-y-2 text-sm text-slate-800">${reken}</div>
+        <p class="text-[10px] italic mt-3 pt-2 text-slate-500" style="border-top:1px solid #bfdbfe">Mohon konfirmasi bukti transfer ke WA admin setelah pembayaran.</p>
+      </div>
+      <div class="grid grid-cols-2 text-center text-xs gap-8 mt-6">
+        <div><p class="text-slate-500">Penerima,</p><div class="h-14"></div><p class="font-bold pt-1" style="border-top:1px solid #cbd5e1">${inv.customer}</p></div>
+        <div><p class="text-slate-500">Hormat kami,</p><div class="h-14"></div><p class="font-bold pt-1" style="border-top:1px solid #cbd5e1">CV Scentia Ultimacos</p></div>
+      </div>
+    </div>
+    <div class="pdf-footer flex justify-between items-center" style="border-top:2px solid #e2e8f0;padding-top:8px;font-size:8px;color:#94a3b8">
+      <span>Invoice ${inv.nomor}</span><span>Terima kasih 🙏</span><span>Hal 1/1</span>
+    </div>
+  </div>`);
+  setTimeout(async () => {
+    try {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ orientation:'portrait', unit:'mm', format:'a4' });
+      const el = document.getElementById('pdf-invoice');
+      const cv = await html2canvas(el, { scale:2, useCORS:true, logging:false });
+      doc.addImage(cv.toDataURL('image/jpeg', 0.95), 'JPEG', 0, 0, 210, 297);
+      doc.save(`${inv.nomor.replace(/[\/\\]/g,'_')}_${inv.customer.replace(/[^a-zA-Z0-9]/g,'_')}.pdf`);
+      showToast('Invoice PDF berhasil diunduh!', 'success');
+    } catch(err) { showToast('Gagal PDF: ' + err.message, 'error'); }
+  }, 400);
+}
+
+// ==================== PDF BARANG JADI ====================
 async function cetakPDFBarangJadiPerSPK(brand) {
   const items = Object.keys(stokBarangJadi).filter(k => stokBarangJadi[k].brand === brand).map(k => ({ key:k, ...stokBarangJadi[k] }));
   if(!items.length) return showToast('Tidak ada data!', 'warning');
@@ -3140,6 +3369,7 @@ async function cetakPDFBarangJadiPerSPK(brand) {
   }, 300);
 }
 
+// ==================== PDF STOK SISA ====================
 async function cetakPDFStokSisa(id) {
   const data = stokSisa.find(s => s.id === id);
   if(!data) return;
@@ -3172,6 +3402,7 @@ async function cetakPDFStokSisa(id) {
     } catch(err) { showToast('Gagal', 'error'); }
   }, 300);
 }
+
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     document.querySelectorAll('.modal-overlay').forEach(m => m.classList.add('hidden'));
