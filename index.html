@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CV Scentia Ultimacos - System SPK V7.2</title>
+<title>CV Scentia Ultimacos - System SPK V7.2.1</title>
 <meta name="description" content="Sistem SPK & Costing Formulasi Parfum CV Scentia Ultimacos" />
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -166,14 +166,12 @@ label { color: var(--text-2); }
 
 .sisa-row { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 8px; }
 
-/* OVER badge */
 .over-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 9999px; background: linear-gradient(135deg, #f59e0b, #f97316); color: white; box-shadow: 0 3px 10px -2px rgba(245,158,11,.5); letter-spacing: .3px; }
 .over-badge.gudang { background: linear-gradient(135deg, #6366f1, #8b5cf6); }
 .over-badge.invoice { background: linear-gradient(135deg, #10b981, #14b8a6); }
 .over-badge.tandon { background: linear-gradient(135deg, #f59e0b, #eab308); }
 .over-badge.afkir { background: linear-gradient(135deg, #ef4444, #f43f5e); }
 
-/* Umur tandon badges */
 .umur-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 9999px; letter-spacing: .3px; }
 .umur-badge.fresh { background: #d1fae5; color: #065f46; }
 .umur-badge.followup { background: #fef3c7; color: #92400e; }
@@ -185,7 +183,6 @@ label { color: var(--text-2); }
 .input-warning-text { font-size: 11px; font-weight: 700; color: #ef4444; margin-top: 4px; display: flex; align-items: center; gap: 4px; }
 html.dark .input-error { background: rgba(239,68,68,.1) !important; }
 
-/* Radio pill */
 .pill-radio-group { display: flex; gap: 8px; flex-wrap: wrap; }
 .pill-radio { flex: 1; min-width: 140px; cursor: pointer; position: relative; }
 .pill-radio input { position: absolute; opacity: 0; pointer-events: none; }
@@ -216,7 +213,7 @@ html.dark .input-error { background: rgba(239,68,68,.1) !important; }
     <div class="text-center space-y-3">
       <div class="inline-block p-4 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl text-3xl shadow-lg" style="animation: pulse-ring 2s infinite">🧪</div>
       <h1 class="text-2xl font-extrabold text-white tracking-tight">CV Scentia Ultimacos</h1>
-      <p class="text-sm text-slate-400 font-semibold">System SPK & Costing V7.2</p>
+      <p class="text-sm text-slate-400 font-semibold">System SPK & Costing V7.2.1</p>
     </div>
     <form onsubmit="handleLogin(event)" class="space-y-5 mt-8">
       <div>
@@ -242,7 +239,7 @@ html.dark .input-error { background: rgba(239,68,68,.1) !important; }
         <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-extrabold text-lg shadow-lg">SU</div>
         <div>
           <h1 class="font-extrabold text-sm" style="color: var(--text-1)">Scentia Ultimacos</h1>
-          <p class="text-[10px] font-semibold" style="color: var(--text-3)">SPK V7.2 · PRO</p>
+          <p class="text-[10px] font-semibold" style="color: var(--text-3)">SPK V7.2.1 · PRO</p>
         </div>
       </div>
       <nav class="flex-1 overflow-y-auto py-2" id="sidebar-nav">
@@ -531,7 +528,7 @@ html.dark .input-error { background: rgba(239,68,68,.1) !important; }
               <span id="label-total-barangjadi" class="chip" style="background:#d1fae5;color:#065f46">0 Item</span>
             </div>
             <div class="flex flex-wrap gap-3 items-center p-3 rounded-xl" style="background: var(--surface-2)">
-              <input type="text" id="bj-search" placeholder="🔍 Cari brand / varian..." oninput="renderBarangJadi()" class="filter-input flex-1 min-w-[150px]">
+              <input type="text" id="bj-search" placeholder="🔍 Cari brand / varian..." class="filter-input flex-1 min-w-[150px]">
               <select id="bj-filter-brand" onchange="renderBarangJadi()" class="filter-select min-w-[120px]"><option value="">Semua Brand</option></select>
               <select id="bj-sort" onchange="renderBarangJadi()" class="filter-select min-w-[140px]">
                 <option value="newest">🕐 Terbaru</option><option value="oldest">🕐 Terlama</option>
@@ -544,7 +541,7 @@ html.dark .input-error { background: rgba(239,68,68,.1) !important; }
           </div>
         </div>
 
-        <!-- PAGE STOK TANDON (BARU V7.2) -->
+        <!-- PAGE STOK TANDON -->
         <div id="page-tandon" class="space-y-4 hidden">
           <div class="card p-5 space-y-4">
             <div class="flex flex-wrap justify-between items-center gap-3 border-b pb-3" style="border-color: var(--border)">
@@ -558,7 +555,7 @@ html.dark .input-error { background: rgba(239,68,68,.1) !important; }
               </div>
             </div>
             <div class="flex flex-wrap gap-3 items-center p-3 rounded-xl" style="background: var(--surface-2)">
-              <input type="text" id="tdn-search" placeholder="🔍 Cari brand / SPK / varian..." oninput="renderTandon()" class="filter-input flex-1 min-w-[180px]">
+              <input type="text" id="tdn-search" placeholder="🔍 Cari brand / SPK / varian..." class="filter-input flex-1 min-w-[180px]">
               <select id="tdn-filter-umur" onchange="renderTandon()" class="filter-select min-w-[160px]">
                 <option value="">Semua Umur</option>
                 <option value="fresh">🟢 Baru (0-30 hari)</option>
@@ -625,7 +622,7 @@ html.dark .input-error { background: rgba(239,68,68,.1) !important; }
               </div>
             </div>
             <div class="flex flex-wrap gap-3 items-center p-3 rounded-xl" style="background: var(--surface-2)">
-              <input type="text" id="inv-search" placeholder="🔍 Cari no. invoice / brand / customer..." oninput="renderInvoice()" class="filter-input flex-1 min-w-[180px]">
+              <input type="text" id="inv-search" placeholder="🔍 Cari no. invoice / brand / customer..." class="filter-input flex-1 min-w-[180px]">
               <select id="inv-filter-status" onchange="renderInvoice()" class="filter-select min-w-[140px]">
                 <option value="">Semua Status</option><option value="draft">📝 Draft</option>
                 <option value="sent">📤 Terkirim</option><option value="paid">✅ Lunas</option>
@@ -724,7 +721,6 @@ html.dark .input-error { background: rgba(239,68,68,.1) !important; }
   </div>
 </div>
 
-<!-- MODAL TANDON ACTION (BARU V7.2) -->
 <div id="modal-tandon-action" class="modal-overlay hidden">
   <div class="modal-content" style="max-width: 600px;">
     <div class="flex justify-between items-center border-b pb-3 mb-4" style="border-color: var(--border)">
@@ -882,6 +878,15 @@ function showToast(msg, type='info', sub='') {
   el.innerHTML = `<span class="toast-icon">${icons[type]||icons.info}</span><div><div class="toast-msg">${msg}</div>${sub?`<div class="toast-sub">${sub}</div>`:''}</div>`;
   c.appendChild(el);
   setTimeout(() => { el.style.animation = 'slideOutRight .3s forwards'; setTimeout(()=>el.remove(), 300); }, 3500);
+}
+
+// ==================== DEBOUNCE HELPER (V7.2.1) ====================
+function debounce(fn, delay = 300) {
+  let timer;
+  return function (...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn.apply(this, args), delay);
+  };
 }
 
 // ==================== ESCAPE HTML ====================
@@ -1148,97 +1153,155 @@ function validateNomorSPK() {
   }
 }
 
-// ==================== LOAD ALL DATA ====================
+// ==================== LOAD ALL DATA (PARALEL — OPTIMIZED V7.2.1) ====================
 async function loadAllData() {
   try {
-    try { const { data, error } = await supabase.from('master_satuan').select('*').order('id'); if (!error && data && data.length) dbSatuan = data.map(d=>d.nama); } catch(e){}
-    try { const { data, error } = await supabase.from('master_bahan').select('*').order('id'); if (!error && data && data.length) { dbHarga = {}; data.forEach(d=>{dbHarga[d.nama]=parseFloat(d.harga)||0}); } } catch(e){}
-    try { const { data, error } = await supabase.from('master_box').select('*').order('id'); if (!error && data && data.length) { dbBox = {}; data.forEach(d=>{dbBox[d.nama]=parseFloat(d.harga)||0}); } } catch(e){}
-    try { const { data, error } = await supabase.from('master_sticker').select('*').order('id'); if (!error && data && data.length) { dbSticker = {}; data.forEach(d=>{dbSticker[d.nama]=parseFloat(d.harga)||0}); } } catch(e){}
-    try { const { data, error } = await supabase.from('master_ongkos').select('*').order('id'); if (!error && data && data.length) { dbOngkosKerja = {}; data.forEach(d=>{dbOngkosKerja[d.nama]=parseFloat(d.harga)||0}); } } catch(e){}
-    try { const { data, error } = await supabase.from('template_formulasi').select('*').order('id'); if (!error && data && data.length) { dbTemplateFormulasi = {}; data.forEach(d=>{dbTemplateFormulasi[d.nama]=d.bahan}); } } catch(e){}
+    // 🔥 SEMUA QUERY JALAN PARALEL (10x lebih cepat)
+    const [
+      satuanRes, bahanRes, boxRes, stickerRes, ongkosRes, templateRes,
+      spkRes, produksiRes, bjRes, sisaRes, tandonRes,
+      archiveSpkRes, archiveBjRes, archiveSsRes, invoiceRes
+    ] = await Promise.all([
+      supabase.from('master_satuan').select('*').order('id'),
+      supabase.from('master_bahan').select('*').order('id'),
+      supabase.from('master_box').select('*').order('id'),
+      supabase.from('master_sticker').select('*').order('id'),
+      supabase.from('master_ongkos').select('*').order('id'),
+      supabase.from('template_formulasi').select('*').order('id'),
+      supabase.from('spk').select('*').order('created_at', { ascending: false }),
+      supabase.from('produksi').select('*').order('created_at', { ascending: false }),
+      supabase.from('stok_barang_jadi').select('*').order('created_at', { ascending: false }),
+      supabase.from('stok_sisa').select('*').order('created_at', { ascending: false }),
+      supabase.from('stok_tandon').select('*').order('created_at', { ascending: false }),
+      supabase.from('archive_spk').select('*').order('archived_at', { ascending: false }),
+      supabase.from('archive_barang_jadi').select('*').order('archived_at', { ascending: false }),
+      supabase.from('archive_stok_sisa').select('*').order('archived_at', { ascending: false }),
+      supabase.from('invoices').select('*').order('created_at', { ascending: false })
+    ]);
 
-    try {
-      let spkRes = await supabase.from('spk').select('*').order('created_at', { ascending: false });
-      if (spkRes.error && spkRes.error.code === 'PGRST205') spkRes = await supabase.from('spk_orders').select('*').order('created_at', { ascending: false });
-      if (!spkRes.error && spkRes.data) {
-        listSPK = spkRes.data.map(d => ({
-          id:d.id, nomor:d.nomor, brand:d.brand, tanggal:d.tanggal, varians:d.varians||[],
-          gudangStatus:d.gudang_status||'menunggu', gudang_status:d.gudang_status||'menunggu',
-          gudangCek:d.gudang_cek||{}, gudang_cek:d.gudang_cek||{},
-          produksiData:d.produksi_data||{}, produksi_data:d.produksi_data||{}, createdAt:d.created_at
-        }));
-      }
-    } catch(e){}
+    // === FALLBACK untuk tabel alternatif (PGRST205) ===
+    let spkData = spkRes.data;
+    if (!spkData || (spkRes.error && spkRes.error.code === 'PGRST205')) {
+      const fb = await supabase.from('spk_orders').select('*').order('created_at', { ascending: false });
+      spkData = fb.data;
+    }
+    let bjData = bjRes.data;
+    if (!bjData || (bjRes.error && bjRes.error.code === 'PGRST205')) {
+      const fb = await supabase.from('barang_jadi').select('*').order('created_at', { ascending: false });
+      bjData = fb.data;
+    }
+    let archiveBjData = archiveBjRes.data;
+    if (!archiveBjData || (archiveBjRes.error && archiveBjRes.error.code === 'PGRST205')) {
+      const fb = await supabase.from('archive_bj').select('*').order('archived_at', { ascending: false });
+      archiveBjData = fb.data;
+    }
+    let archiveSsData = archiveSsRes.data;
+    if (!archiveSsData || (archiveSsRes.error && archiveSsRes.error.code === 'PGRST205')) {
+      const fb = await supabase.from('archive_ss').select('*').order('archived_at', { ascending: false });
+      archiveSsData = fb.data;
+    }
 
-    try {
-      const { data, error } = await supabase.from('produksi').select('*').order('created_at', { ascending: false });
-      if (!error && data) {
-        daftarProduksi = data.map(d => {
-          const m = listSPK.find(s => s.id == d.spk_id);
-          return { id:d.id, spkId:d.spk_id, spk_id:d.spk_id, nomorSPK:d.nomor_spk, nomor_spk:d.nomor_spk, brand:d.brand, tanggal:d.tanggal,
-            varians: d.varians && d.varians.length ? d.varians : (m?m.varians:[]),
-            produksiData:d.produksi_data||{}, produksi_data:d.produksi_data||{}, status:d.status||'Siap Produksi', createdAt:d.created_at };
-        });
-      }
-    } catch(e){}
+    // === PROSES DATA MASTER ===
+    if (satuanRes.data?.length) dbSatuan = satuanRes.data.map(d => d.nama);
+    if (bahanRes.data?.length) { dbHarga = {}; bahanRes.data.forEach(d => { dbHarga[d.nama] = parseFloat(d.harga) || 0; }); }
+    if (boxRes.data?.length) { dbBox = {}; boxRes.data.forEach(d => { dbBox[d.nama] = parseFloat(d.harga) || 0; }); }
+    if (stickerRes.data?.length) { dbSticker = {}; stickerRes.data.forEach(d => { dbSticker[d.nama] = parseFloat(d.harga) || 0; }); }
+    if (ongkosRes.data?.length) { dbOngkosKerja = {}; ongkosRes.data.forEach(d => { dbOngkosKerja[d.nama] = parseFloat(d.harga) || 0; }); }
+    if (templateRes.data?.length) { dbTemplateFormulasi = {}; templateRes.data.forEach(d => { dbTemplateFormulasi[d.nama] = d.bahan; }); }
 
-    try {
-      let bjRes = await supabase.from('stok_barang_jadi').select('*').order('created_at', { ascending: false });
-      if (bjRes.error && bjRes.error.code === 'PGRST205') bjRes = await supabase.from('barang_jadi').select('*').order('created_at', { ascending: false });
-      if (!bjRes.error && bjRes.data) {
-        stokBarangJadi = {};
-        bjRes.data.forEach(d => { const k = d.key_name || d.key; stokBarangJadi[k] = { id:d.id, key:k, qty:d.qty||0, brand:d.brand||'-', ukuran:d.ukuran||'-', satuan:d.satuan||'Pcs', tanggal:d.tanggal||d.created_at }; });
-      }
-    } catch(e){}
+    // === PROSES SPK ===
+    if (spkData) {
+      listSPK = spkData.map(d => ({
+        id: d.id, nomor: d.nomor, brand: d.brand, tanggal: d.tanggal, varians: d.varians || [],
+        gudangStatus: d.gudang_status || 'menunggu', gudang_status: d.gudang_status || 'menunggu',
+        gudangCek: d.gudang_cek || {}, gudang_cek: d.gudang_cek || {},
+        produksiData: d.produksi_data || {}, produksi_data: d.produksi_data || {}, createdAt: d.created_at
+      }));
+    }
 
-    try {
-      const { data, error } = await supabase.from('stok_sisa').select('*').order('created_at', { ascending: false });
-      if (!error && data) stokSisa = data.map(d=>({ id:d.id, spkId:d.spk_id, nomorSPK:d.nomor_spk, brand:d.brand, tanggal:d.tanggal, sisaData:d.sisa_data||{}, createdAt:d.created_at }));
-    } catch(e){}
+    // === PROSES PRODUKSI ===
+    if (produksiRes.data) {
+      daftarProduksi = produksiRes.data.map(d => {
+        const m = listSPK.find(s => s.id == d.spk_id);
+        return {
+          id: d.id, spkId: d.spk_id, spk_id: d.spk_id, nomorSPK: d.nomor_spk, nomor_spk: d.nomor_spk,
+          brand: d.brand, tanggal: d.tanggal,
+          varians: d.varians && d.varians.length ? d.varians : (m ? m.varians : []),
+          produksiData: d.produksi_data || {}, produksi_data: d.produksi_data || {},
+          status: d.status || 'Siap Produksi', createdAt: d.created_at
+        };
+      });
+    }
 
-    // ✅ LOAD STOK TANDON (BARU V7.2)
-    try {
-      const { data, error } = await supabase.from('stok_tandon').select('*').order('created_at', { ascending: false });
-      if (!error && data) {
-        listTandon = data.map(d => ({
-          id:d.id, spkId:d.spk_id, spk_id:d.spk_id,
-          nomorSPK:d.nomor_spk, nomor_spk:d.nomor_spk,
-          brand:d.brand, namaVarian:d.nama_varian, nama_varian:d.nama_varian,
-          ukuran:d.ukuran, qty:d.qty||0, satuan:d.satuan||'Pcs',
-          alasanOver:d.alasan_over, alasan_over:d.alasan_over,
-          tanggalMasuk:d.tanggal_masuk, tanggal_masuk:d.tanggal_masuk,
-          hppPerPcs:parseFloat(d.hpp_per_pcs)||0, hpp_per_pcs:parseFloat(d.hpp_per_pcs)||0,
-          status:d.status||'tandon',
-          tanggalKeluar:d.tanggal_keluar, tanggal_keluar:d.tanggal_keluar,
-          invoiceId:d.invoice_id, invoice_id:d.invoice_id,
-          catatan:d.catatan||'', createdAt:d.created_at
-        }));
-      }
-    } catch(e) { console.warn('load tandon:', e); }
+    // === PROSES BARANG JADI ===
+    if (bjData) {
+      stokBarangJadi = {};
+      bjData.forEach(d => {
+        const k = d.key_name || d.key;
+        stokBarangJadi[k] = { id: d.id, key: k, qty: d.qty || 0, brand: d.brand || '-', ukuran: d.ukuran || '-', satuan: d.satuan || 'Pcs', tanggal: d.tanggal || d.created_at };
+      });
+    }
 
-    try {
-      const { data, error } = await supabase.from('archive_spk').select('*').order('archived_at', { ascending: false });
-      if (!error && data) archiveSPK = data.map(d=>({ id:d.id, nomor:d.nomor, brand:d.brand, tanggal:d.tanggal, varians:d.varians||[], gudangStatus:d.gudang_status||'arsip', gudangCek:d.gudang_cek||{}, archivedAt:d.archived_at }));
-    } catch(e){}
+    // === PROSES STOK SISA ===
+    if (sisaRes.data) {
+      stokSisa = sisaRes.data.map(d => ({
+        id: d.id, spkId: d.spk_id, nomorSPK: d.nomor_spk, brand: d.brand,
+        tanggal: d.tanggal, sisaData: d.sisa_data || {}, createdAt: d.created_at
+      }));
+    }
 
-    try {
-      let abj = await supabase.from('archive_barang_jadi').select('*').order('archived_at', { ascending: false });
-      if (abj.error && abj.error.code === 'PGRST205') abj = await supabase.from('archive_bj').select('*').order('archived_at', { ascending: false });
-      if (!abj.error && abj.data) archiveBJ = abj.data.map(d=>({ id:d.id, key:d.key_name||d.key, brand:d.brand||'-', ukuran:d.ukuran||'-', qty:d.qty||0, satuan:d.satuan||'Pcs', archivedAt:d.archived_at }));
-    } catch(e){}
+    // === PROSES STOK TANDON ===
+    if (tandonRes.data) {
+      listTandon = tandonRes.data.map(d => ({
+        id: d.id, spkId: d.spk_id, spk_id: d.spk_id,
+        nomorSPK: d.nomor_spk, nomor_spk: d.nomor_spk,
+        brand: d.brand, namaVarian: d.nama_varian, nama_varian: d.nama_varian,
+        ukuran: d.ukuran, qty: d.qty || 0, satuan: d.satuan || 'Pcs',
+        alasanOver: d.alasan_over, alasan_over: d.alasan_over,
+        tanggalMasuk: d.tanggal_masuk, tanggal_masuk: d.tanggal_masuk,
+        hppPerPcs: parseFloat(d.hpp_per_pcs) || 0, hpp_per_pcs: parseFloat(d.hpp_per_pcs) || 0,
+        status: d.status || 'tandon',
+        tanggalKeluar: d.tanggal_keluar, tanggal_keluar: d.tanggal_keluar,
+        invoiceId: d.invoice_id, invoice_id: d.invoice_id,
+        catatan: d.catatan || '', createdAt: d.created_at
+      }));
+    }
 
-    try {
-      let ass = await supabase.from('archive_stok_sisa').select('*').order('archived_at', { ascending: false });
-      if (ass.error && ass.error.code === 'PGRST205') ass = await supabase.from('archive_ss').select('*').order('archived_at', { ascending: false });
-      if (!ass.error && ass.data) archiveSS = ass.data.map(d=>({ id:d.id, spkId:d.spk_id, nomorSPK:d.nomor_spk, brand:d.brand, tanggal:d.tanggal, sisaData:d.sisa_data||{}, archivedAt:d.archived_at }));
-    } catch(e){}
+    // === PROSES ARSIP ===
+    if (archiveSpkRes.data) {
+      archiveSPK = archiveSpkRes.data.map(d => ({
+        id: d.id, nomor: d.nomor, brand: d.brand, tanggal: d.tanggal,
+        varians: d.varians || [], gudangStatus: d.gudang_status || 'arsip',
+        gudangCek: d.gudang_cek || {}, archivedAt: d.archived_at
+      }));
+    }
+    if (archiveBjData) {
+      archiveBJ = archiveBjData.map(d => ({
+        id: d.id, key: d.key_name || d.key, brand: d.brand || '-',
+        ukuran: d.ukuran || '-', qty: d.qty || 0, satuan: d.satuan || 'Pcs', archivedAt: d.archived_at
+      }));
+    }
+    if (archiveSsData) {
+      archiveSS = archiveSsData.map(d => ({
+        id: d.id, spkId: d.spk_id, nomorSPK: d.nomor_spk, brand: d.brand,
+        tanggal: d.tanggal, sisaData: d.sisa_data || {}, archivedAt: d.archived_at
+      }));
+    }
 
-    try {
-      const { data, error } = await supabase.from('invoices').select('*').order('created_at', { ascending: false });
-      if (!error && data) listInvoice = data.map(d=>({ id:d.id, nomor:d.nomor, spkId:d.spk_id, spkNomor:d.spk_nomor, brand:d.brand, customer:d.customer||'', tanggal:d.tanggal, dueDate:d.due_date, items:d.items||[], subtotal:parseFloat(d.subtotal)||0, diskon:parseFloat(d.diskon)||0, total:parseFloat(d.total)||0, dp:parseFloat(d.dp)||0, sisa:parseFloat(d.sisa)||0, status:d.status||'draft', catatan:d.catatan||'', createdAt:d.created_at, isTandonInvoice: d.is_tandon_invoice||false, tandonId: d.tandon_id||null }));
-    } catch(e){}
-  } catch(err) { console.error('loadAllData:', err); }
+    // === PROSES INVOICES ===
+    if (invoiceRes.data) {
+      listInvoice = invoiceRes.data.map(d => ({
+        id: d.id, nomor: d.nomor, spkId: d.spk_id, spkNomor: d.spk_nomor, brand: d.brand,
+        customer: d.customer || '', tanggal: d.tanggal, dueDate: d.due_date, items: d.items || [],
+        subtotal: parseFloat(d.subtotal) || 0, diskon: parseFloat(d.diskon) || 0,
+        total: parseFloat(d.total) || 0, dp: parseFloat(d.dp) || 0, sisa: parseFloat(d.sisa) || 0,
+        status: d.status || 'draft', catatan: d.catatan || '', createdAt: d.created_at,
+        isTandonInvoice: d.is_tandon_invoice || false, tandonId: d.tandon_id || null
+      }));
+    }
+  } catch (err) {
+    console.error('loadAllData:', err);
+  }
 }
 
 function hitungHPPPerBotol(varian) {
@@ -1288,6 +1351,15 @@ window.onload = async function() {
   const el = document.getElementById('spk-tanggal');
   if (el) el.value = new Date().toISOString().split('T')[0];
   setupNomorSPKListeners();
+
+  // 🔥 Debounced search (V7.2.1)
+  const bjSearch = document.getElementById('bj-search');
+  if (bjSearch) bjSearch.addEventListener('input', debounce(renderBarangJadi, 300));
+  const invSearch = document.getElementById('inv-search');
+  if (invSearch) invSearch.addEventListener('input', debounce(renderInvoice, 300));
+  const tdnSearch = document.getElementById('tdn-search');
+  if (tdnSearch) tdnSearch.addEventListener('input', debounce(renderTandon, 300));
+
   if (currentUser) {
     setTimeout(() => {
       const allowed = getAllowedTabs(currentUser);
@@ -1325,7 +1397,7 @@ function getAllowedTabs(user) {
   let allowed = user.access;
   if (typeof allowed === 'string') { try { allowed = JSON.parse(allowed); } catch(e) { allowed = null; } }
   if (!Array.isArray(allowed) || allowed.length === 0) allowed = ROLE_TEMPLATES[user.role] || ['dashboard', 'spk', 'history'];
-  return allowed;
+  return allowed.filter(x => typeof x === 'string');
 }
 
 async function handleLogin(e) {
@@ -1350,6 +1422,15 @@ async function handleLogin(e) {
       await loadAllData();
       renderAll();
       setupNomorSPKListeners();
+
+      // 🔥 Debounced search (V7.2.1)
+      const bjSearch = document.getElementById('bj-search');
+      if (bjSearch) bjSearch.addEventListener('input', debounce(renderBarangJadi, 300));
+      const invSearch = document.getElementById('inv-search');
+      if (invSearch) invSearch.addEventListener('input', debounce(renderInvoice, 300));
+      const tdnSearch = document.getElementById('tdn-search');
+      if (tdnSearch) tdnSearch.addEventListener('input', debounce(renderTandon, 300));
+
       setTimeout(() => {
         const allowed = getAllowedTabs(currentUser);
         if (allowed && allowed.length) {
@@ -2193,7 +2274,7 @@ function cekGudang(spkId) {
   setTimeout(() => document.getElementById('detail-spk-gudang')?.scrollIntoView({ behavior:'smooth', block:'center' }), 300);
 }
 
-// ==================== PRODUKSI (3 pilihan over: Invoice / Tandon / Afkir) ====================
+// ==================== PRODUKSI ====================
 function renderProduksi() {
   const c = document.getElementById('list-spk-produksi');
   if (!c) return;
@@ -2226,21 +2307,17 @@ function renderProduksi() {
       const isUnder = totalHasil < target;
       const isValid = isPas || isOver;
       const sisaItems = Object.keys(d.bahanSisa||{}).length;
-
       let statusLine = '';
       if (isOver) statusLine = `<span class="over-badge">⚠️ OVER +${overQty.toLocaleString('id-ID')} pcs</span>`;
       else if (isPas) statusLine = `<span class="chip" style="background:#d1fae5;color:#065f46;font-size:9px">✅ PAS</span>`;
       else statusLine = `<span class="chip" style="background:#fee2e2;color:#b91c1c;font-size:9px">⚠️ KURANG ${(target-totalHasil).toLocaleString('id-ID')}</span>`;
-
       let tujuanBadge = '';
       if (isOver && d.tujuanOver) {
         if (d.tujuanOver === 'invoice') tujuanBadge = `<span class="over-badge invoice">🧾 Masuk Invoice</span>`;
         else if (d.tujuanOver === 'tandon') tujuanBadge = `<span class="over-badge tandon">📦 Tandon Customer</span>`;
         else if (d.tujuanOver === 'afkir') tujuanBadge = `<span class="over-badge afkir">🗑️ Afkir</span>`;
       }
-
       const sisaInfo = sisaItems > 0 ? `<div class="text-[10px]" style="color:var(--text-3)">📦 Sisa: ${Object.keys(d.bahanSisa).map(k => `${escapeHtml(k)}: ${formatBahanSisa(d.bahanSisa[k])}`).join(' | ')}</div>` : (rsk > 0 ? `<span class="text-[10px] font-bold" style="color:#be185d">⚠️ Wajib isi bahan sisa (ada rusak)</span>` : '');
-
       return `<div class="p-3 rounded-xl border variant-card text-xs space-y-1" style="${isValid?'background:#f0fdf4;border-color:#86efac':(isOver?'background:#fff7ed;border-color:#fdba74':'background:#fef2f2;border-color:#fca5a5')}">
         <div class="flex justify-between items-center flex-wrap gap-1">
           <span class="font-bold" style="color:var(--text-1)">${escapeHtml(nama)}</span>
@@ -2305,15 +2382,12 @@ function openModalProduksi(prodId, varianNama) {
   const data = { ...rawData, bahanSisa: migrateBahanSisa(rawData.bahanSisa) };
   const v = prod.varians?.find(x => (x.nama||'Unnamed') === varianNama);
   const target = v?.po || 0;
-
   document.getElementById('modal-produksi-title').textContent = `✏️ Edit - ${prod.nomorSPK} - ${varianNama} (Target: ${target.toLocaleString('id-ID')} pcs)`;
-
   let sisa = '';
   Object.keys(data.bahanSisa||{}).forEach(nama => {
     const b = data.bahanSisa[nama];
     sisa += renderSisaRowManual(nama, b.qty, b.satuan || 'Pcs', b.keterangan || '');
   });
-
   const currentTujuan = data.tujuanOver || '';
   document.getElementById('modal-produksi-body').innerHTML = `
     <div class="p-3 rounded-xl text-xs font-bold" style="background:#eef2ff;border:1px solid #c7d2fe;color:#4338ca">
@@ -2444,7 +2518,6 @@ async function saveModalProduksi() {
   const overQty = bj > target ? (bj - target) : 0;
   const isOver = overQty > 0;
   const isPas = total === target && !isOver;
-
   if (!isPas && !isOver) {
     showToast('❌ Belum valid!', 'error', `BJ + Rusak harus = ${target}, atau BJ > ${target}`);
     return;
@@ -2499,7 +2572,6 @@ function openModalSelesaiProduksi(id) {
   if (!varNames.length) return showToast('Tidak ada varian!', 'warning');
   const spk = listSPK.find(s => s.id == (prod.spkId || prod.spk_id));
   if (!spk) return showToast('SPK asli tidak ditemukan!', 'error');
-
   let allValid = true;
   const problems = [];
   varNames.forEach(nama => {
@@ -2518,7 +2590,6 @@ function openModalSelesaiProduksi(id) {
     showToast('❌ Belum bisa selesai!', 'error', 'Varian belum valid: ' + problems.join(', '));
     return;
   }
-
   let grandTotal = 0; const items = [];
   let totalOverInvoice = 0, totalOverTandon = 0, totalOverAfkir = 0;
   varNames.forEach(nama => {
@@ -2531,18 +2602,10 @@ function openModalSelesaiProduksi(id) {
     const isOver = overQty > 0;
     const tujuan = d.tujuanOver || '';
     const hpp = hitungHPPPerBotol(v);
-
     let qtyInvoice = d.barangJadi;
-    if (isOver && tujuan === 'tandon') {
-      qtyInvoice = target;
-      totalOverTandon += overQty;
-    } else if (isOver && tujuan === 'afkir') {
-      qtyInvoice = target;
-      totalOverAfkir += overQty;
-    } else if (isOver && tujuan === 'invoice') {
-      totalOverInvoice += overQty;
-    }
-
+    if (isOver && tujuan === 'tandon') { qtyInvoice = target; totalOverTandon += overQty; }
+    else if (isOver && tujuan === 'afkir') { qtyInvoice = target; totalOverAfkir += overQty; }
+    else if (isOver && tujuan === 'invoice') { totalOverInvoice += overQty; }
     if (qtyInvoice > 0) {
       const sub = hpp * qtyInvoice;
       grandTotal += sub;
@@ -2550,7 +2613,6 @@ function openModalSelesaiProduksi(id) {
     }
   });
   pendingSelesaiProduksi = { prodId:id, items, grandTotal, spkId:spk.id, spkNomor:spk.nomor, brand:spk.brand, customer:spk.brand, overTandon: totalOverTandon, overInvoice: totalOverInvoice, overAfkir: totalOverAfkir };
-
   let summaryRows = varNames.map(nama => {
     const d = prodData[nama];
     const v = spk.varians?.find(x => (x.nama||'Unnamed') === nama);
@@ -2569,7 +2631,6 @@ function openModalSelesaiProduksi(id) {
       </span>
     </div>`;
   }).join('');
-
   const overInfoBlock = (totalOverInvoice > 0 || totalOverTandon > 0 || totalOverAfkir > 0) ? `
     <div class="p-3 rounded-xl" style="background:#fff7ed;border:1px solid #fdba74">
       <p class="text-xs font-bold mb-2" style="color:#9a3412">⚠️ Ringkasan Over Produksi:</p>
@@ -2579,7 +2640,6 @@ function openModalSelesaiProduksi(id) {
         ${totalOverAfkir > 0 ? `<div>🗑️ Afkir / Buang: <b>+${totalOverAfkir} pcs</b></div>` : ''}
       </div>
     </div>` : '';
-
   document.getElementById('modal-selesai-body').innerHTML = `
     <div class="p-3 rounded-xl" style="background:#fef3c7;border:2px solid #fde68a">
       <p class="text-sm font-bold" style="color:#92400e">⚠️ Konfirmasi Selesai Produksi</p>
@@ -2613,19 +2673,16 @@ async function konfirmasiSelesaiProduksi() {
   if (!pendingSelesaiProduksi) return;
   const { prodId, items, grandTotal, spkId, spkNomor, brand } = pendingSelesaiProduksi;
   const btn = document.querySelector('#modal-selesai-produksi .btn-success');
-
   await safeExecute('selesaiProduksi', async () => {
     document.getElementById('modal-selesai-produksi').classList.add('hidden');
     const prod = daftarProduksi.find(p => p.id === prodId);
     if (!prod) throw new Error('Produksi tidak ditemukan!');
     const existingInv = await checkDuplicate('invoices', 'spk_id', spkId);
     if (existingInv) throw new Error(`Invoice untuk SPK ${spkNomor} sudah ada!`);
-
     await safeDbUpdate('spk', 'id', prod.spkId || prod.spk_id, { gudang_status: 'selesai' }, 'spk_orders');
     const spk = listSPK.find(s => s.id == (prod.spkId || prod.spk_id));
     const sisaData = {};
     const prodData = prod.produksiData || prod.produksi_data || {};
-
     for (const nama of Object.keys(prodData)) {
       const d = prodData[nama];
       if(d.bahanSisa && Object.keys(d.bahanSisa).length) sisaData[nama] = d.bahanSisa;
@@ -2635,17 +2692,10 @@ async function konfirmasiSelesaiProduksi() {
         const isOver = overQty > 0;
         const tujuan = d.tujuanOver || '';
         const v = spk?.varians?.find(x => (x.nama||'Unnamed') === nama);
-
-        // ✅ Tentukan qty yang masuk BARANG JADI biasa (stok bebas)
-        // - Kalau TIDAK over → semua masuk BJ
-        // - Kalau over tujuan invoice → semua masuk BJ (nanti di-invoice semua)
-        // - Kalau over tujuan tandon → yang masuk BJ hanya sebesar PO, sisanya masuk tabel tandon
-        // - Kalau over tujuan afkir → yang masuk BJ hanya sebesar PO, sisanya gak masuk (dibuang)
         let qtyMasukBJ = d.barangJadi;
         let qtyTandon = 0;
         if (isOver && tujuan === 'tandon') { qtyMasukBJ = target; qtyTandon = overQty; }
         else if (isOver && tujuan === 'afkir') { qtyMasukBJ = target; }
-
         if (qtyMasukBJ > 0) {
           const key = `${prod.brand} - ${nama}`;
           const p = { key_name: key, brand: prod.brand||'-', ukuran: String(v?.ukuran||'-'), qty: qtyMasukBJ, satuan: d.barangJadiSatuan||'Pcs', tanggal: new Date().toISOString() };
@@ -2657,8 +2707,6 @@ async function konfirmasiSelesaiProduksi() {
             if (bjErr && bjErr.code === 'PGRST205') await supabase.from('barang_jadi').insert([{ key, brand: prod.brand||'-', ukuran: String(v?.ukuran||'-'), qty: qtyMasukBJ, satuan: d.barangJadiSatuan||'Pcs', tanggal: new Date().toISOString(), spk_id: prod.spkId || prod.spk_id }]);
           }
         }
-
-        // ✅ Insert ke stok_tandon
         if (qtyTandon > 0) {
           const hpp = v ? hitungHPPPerBotol(v) : 0;
           const tandonPayload = {
@@ -2683,7 +2731,6 @@ async function konfirmasiSelesaiProduksi() {
       }
     }
     if(Object.keys(sisaData).length) await supabase.from('stok_sisa').insert([{ id:`SISA-${Date.now()}`, spk_id:prod.spkId||prod.spk_id, nomor_spk:prod.nomorSPK||prod.nomor_spk, brand:prod.brand, tanggal:new Date().toISOString().split('T')[0], sisa_data:sisaData, created_at:new Date().toISOString() }]);
-
     const invId = `INV-${Date.now()}`;
     const invNo = genInvoiceNumber();
     const invTgl = new Date().toISOString().split('T')[0];
@@ -2860,7 +2907,7 @@ function renderArchiveBJ() {
     </div>
   </div>`).join('');
 }
-// ==================== STOK TANDON (BARU V7.2) ====================
+// ==================== STOK TANDON ====================
 function hitungUmurTandon(tanggalMasuk) {
   if (!tanggalMasuk) return 0;
   const d = new Date(tanggalMasuk);
@@ -2883,14 +2930,10 @@ function getUmurLabel(hari) {
 function renderTandon() {
   const c = document.getElementById('list-tandon');
   if (!c) return;
-
-  // Filter: hanya status 'tandon' yang masih aktif
   let items = listTandon.filter(t => t.status === 'tandon');
-
   const search = (document.getElementById('tdn-search')?.value || '').toLowerCase().trim();
   const filterUmur = document.getElementById('tdn-filter-umur')?.value || '';
   const sort = document.getElementById('tdn-sort')?.value || 'newest';
-
   if (search) {
     items = items.filter(t =>
       (t.brand||'').toLowerCase().includes(search) ||
@@ -2898,25 +2941,20 @@ function renderTandon() {
       (t.namaVarian||'').toLowerCase().includes(search)
     );
   }
-
   if (filterUmur) {
     items = items.filter(t => {
       const hari = hitungUmurTandon(t.tanggalMasuk);
-      const kat = getUmurKategori(hari);
-      return kat === filterUmur;
+      return getUmurKategori(hari) === filterUmur;
     });
   }
-
   switch (sort) {
     case 'newest': items.sort((a,b)=>(b.tanggalMasuk||'').localeCompare(a.tanggalMasuk||'')); break;
     case 'oldest': items.sort((a,b)=>(a.tanggalMasuk||'').localeCompare(b.tanggalMasuk||'')); break;
     case 'qty-desc': items.sort((a,b)=>(b.qty||0)-(a.qty||0)); break;
   }
-
   const totalQty = items.reduce((s,t)=>s+(t.qty||0),0);
   const l1 = document.getElementById('label-total-tandon'); if (l1) l1.textContent = `${items.length} Item`;
   const l2 = document.getElementById('label-total-tandon-qty'); if (l2) l2.textContent = `${totalQty.toLocaleString('id-ID')} Pcs`;
-
   if (!items.length) {
     c.innerHTML = `<div class="text-center py-10">
       <div class="text-5xl mb-3">📦</div>
@@ -2925,7 +2963,6 @@ function renderTandon() {
     </div>`;
     return;
   }
-
   c.innerHTML = items.map(t => {
     const hari = hitungUmurTandon(t.tanggalMasuk);
     const kat = getUmurKategori(hari);
@@ -2956,7 +2993,6 @@ function renderTandon() {
   }).join('');
 }
 
-// --- Tandon Action Modal ---
 function openTandonInvoice(id) {
   const t = listTandon.find(x => x.id === id);
   if (!t) return;
@@ -3006,7 +3042,6 @@ function openTandonInvoice(id) {
       💡 Qty yang diinvoice akan dikurangi dari stok tandon. Kalau qty < ${t.qty}, sisa tetap jadi tandon.
     </div>`;
   document.getElementById('modal-tandon-action').classList.remove('hidden');
-  // Auto-recalc
   const qtyEl = document.getElementById('tdn-inv-qty');
   const hrgEl = document.getElementById('tdn-inv-harga');
   const totalEl = document.getElementById('tdn-inv-total');
@@ -3083,7 +3118,6 @@ async function saveModalTandon() {
   if (!modalTandonData) return;
   const { action, tandon } = modalTandonData;
   const btn = document.querySelector('#modal-tandon-action .btn-primary');
-
   await safeExecute('tandonAction-' + tandon.id, async () => {
     if (action === 'invoice') {
       const qty = parseInt(document.getElementById('tdn-inv-qty').value) || 0;
@@ -3094,7 +3128,6 @@ async function saveModalTandon() {
       if (qty <= 0 || qty > tandon.qty) throw new Error(`Qty harus 1-${tandon.qty}`);
       if (!customer) throw new Error('Customer wajib diisi!');
       if (harga <= 0) throw new Error('Harga wajib > 0!');
-
       const invId = `INV-${Date.now()}`;
       const invNo = genInvoiceNumber();
       const tgl = new Date().toISOString().split('T')[0];
@@ -3115,13 +3148,9 @@ async function saveModalTandon() {
       };
       const { error: ie } = await supabase.from('invoices').insert([invP]);
       if (ie) throw ie;
-
-      // Update tandon
       const sisaQty = tandon.qty - qty;
       if (sisaQty > 0) {
-        // Masih ada sisa → update tandon dengan qty baru, buat record baru untuk yang keluar
         await safeDbUpdate('stok_tandon', 'id', tandon.id, { qty: sisaQty });
-        // Insert record baru untuk histori yang keluar
         await supabase.from('stok_tandon').insert([{
           id: `TDN-${Date.now()}-out`,
           spk_id: tandon.spkId, nomor_spk: tandon.nomorSPK,
@@ -3190,7 +3219,6 @@ async function saveModalTandon() {
       if (!alasan) throw new Error('Alasan wajib diisi!');
       const tgl = new Date().toISOString().split('T')[0];
       const key = `${tandon.brand} - ${tandon.namaVarian}`;
-      // Tambah ke stok barang jadi
       let { data: ex } = await supabase.from('stok_barang_jadi').select('*').eq('key_name', key);
       if (ex && ex.length > 0) {
         await safeDbUpdate('stok_barang_jadi', 'id', ex[0].id, { qty: (ex[0].qty||0) + qty, tanggal: new Date().toISOString() });
@@ -3339,7 +3367,6 @@ async function saveInvoice() {
   const total = sub - diskon;
   const sisa = total - dp;
   const btn = document.querySelector('#modal-invoice .btn-success');
-
   await safeExecute('saveInvoice', async () => {
     const p = { spk_id: spkId||null, spk_nomor: spk?.nomor||null, brand: spk?.brand||customer, customer, tanggal, due_date:dueDate, items:invoiceItems, subtotal:sub, diskon, total, dp, sisa, status, catatan, created_at:new Date().toISOString() };
     if (id) {
@@ -3782,46 +3809,38 @@ function renderPageHeaderPortrait(spk, title, hal, totalHal) {
 async function cetakPDF(spkId) {
   const spk = listSPK.find(s => s.id === spkId);
   if(!spk) return showToast('Data tidak ditemukan!', 'error');
-
   const F4_W = 215;
   const F4_H = 330;
   const MARGIN = 8;
   const CONTENT_W = F4_W - (MARGIN * 2);
   const CONTENT_H = F4_H - (MARGIN * 2);
   const MAX_H = CONTENT_H - 8;
-
   const ra = document.getElementById('pdf-render-area');
   ra.innerHTML = '';
   ra.style.cssText = 'position:absolute; left:-9999px; top:0; width:' + F4_W + 'mm; background:white;';
-
   let totalPcs = 0;
   let grandTotalAll = 0;
   spk.varians.forEach(v => {
     totalPcs += v.po || 0;
     grandTotalAll += hitungHPPPerBotolPDF(v) * (v.po || 0);
   });
-
   const measureId = 'measure-' + Date.now();
   ra.insertAdjacentHTML('beforeend', `
     <div id="${measureId}" style="width:${CONTENT_W}mm;padding:0;background:white;font-family:'Plus Jakarta Sans',system-ui,sans-serif;">
       ${spk.varians.map((v, idx) => renderVarianBlockPortrait(v, idx)).join('')}
     </div>`);
   await new Promise(r => setTimeout(r, 150));
-
   const measureEl = document.getElementById(measureId);
   const mmToPx = measureEl.offsetWidth / CONTENT_W;
   const pxToMm = 1 / mmToPx;
-
   const varianHeights = [];
   measureEl.querySelectorAll('.varian-block').forEach(el => {
     varianHeights.push({ idx: parseInt(el.dataset.varianIdx), heightMm: el.offsetHeight * pxToMm });
   });
-
   const headerH = 25;
   const infoBlockH = 16;
   const grandTotalH = 22;
   const ttdH = 30;
-
   const pages = [];
   let currentPage = [];
   let currentH = headerH + infoBlockH + 6;
@@ -3835,7 +3854,6 @@ async function cetakPDF(spkId) {
     currentH += vh.heightMm + 4;
   });
   if (currentPage.length > 0) pages.push({ varianIdx: currentPage, isFirst: pages.length === 0 });
-
   const lastPage = pages[pages.length - 1];
   let lastPageH = headerH + 6;
   lastPage.varianIdx.forEach(idx => {
@@ -3852,7 +3870,6 @@ async function cetakPDF(spkId) {
   const totalPages = summaryPages + costingPages.length + 1;
   ra.innerHTML = '';
   ra.style.cssText = 'position:absolute; left:-9999px; top:0; width:' + F4_W + 'mm; background:white;';
-
   pages.forEach((pg, pIdx) => {
     const pageNum = pIdx + 1;
     const varianHTMLs = pg.varianIdx.map(idx => renderVarianBlockPortrait(spk.varians[idx], idx)).join('');
@@ -3885,7 +3902,6 @@ async function cetakPDF(spkId) {
       </div>
     </div>`);
   });
-
   if (needExtraPage) {
     const pageNum = pages.length + 1;
     ra.insertAdjacentHTML('beforeend', `
@@ -3904,7 +3920,6 @@ async function cetakPDF(spkId) {
       </div>
     </div>`);
   }
-
   costingPages.forEach((varianIdxs, pIdx) => {
     const pageNum = summaryPages + pIdx + 1;
     const blocksHTML = varianIdxs.map(idx => renderCostingBlockPortrait(spk.varians[idx], idx)).join('');
@@ -3917,7 +3932,6 @@ async function cetakPDF(spkId) {
       </div>
     </div>`);
   });
-
   const finalPageNum = totalPages;
   const rekapRows = spk.varians.map(v => {
     const hpp = hitungHPPPerBotolPDF(v);
@@ -3931,7 +3945,6 @@ async function cetakPDF(spkId) {
       <td style="padding:5px 6px;text-align:right;font-weight:800;color:#312e81;">Rp ${Math.round(totalPO).toLocaleString('id-ID')}</td>
     </tr>`;
   }).join('');
-
   ra.insertAdjacentHTML('beforeend', `
   <div id="pdf-rekap-page" style="width:${F4_W}mm;height:${F4_H}mm;padding:${MARGIN}mm;background:white;font-family:'Plus Jakarta Sans',system-ui,sans-serif;box-sizing:border-box;display:flex;flex-direction:column;">
     ${renderPageHeaderPortrait(spk, 'Lampiran 3: Rekapitulasi Anggaran PO', finalPageNum, totalPages)}
@@ -3970,7 +3983,6 @@ async function cetakPDF(spkId) {
       CV Scentia Ultimacos · ${escapeHtml(spk.nomor)} · Hal ${finalPageNum}/${totalPages}
     </div>
   </div>`);
-
   await new Promise(r => setTimeout(r, 400));
   try {
     const { jsPDF } = window.jspdf;
